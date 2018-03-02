@@ -1,0 +1,22 @@
+<!-- OPTION SELECT TEMPLATE -->
+<script type="text/template" data-template-id="option-default">
+  <div class="option-item option-<%= option.handle %> row middle-xl">
+    <label class="cell-mc-12 cell-xl-3"><%= option.title %></label>
+    <div class="cell-mc-12 cell-xl-4 cell-xs-8">
+      <div class="select-wrapper select-styled">
+        <select class="select-field" data-option-bind="<%= option.id %>">
+          <% _.forEach(option.values, function (value){ %>
+          <option
+            data-value-position="<%= value.position %>"
+            value="<%= value.position %>"
+          <% if (option.selected == value.position & initOption) { %>selected<% } %>
+          <% if (value.disabled) { %>disabled<% } %>
+          >
+          <%= value.title %>
+          </option>
+          <% }) %>
+        </select>
+      </div>
+    </div>
+  </div><!-- /.option-item -->
+</script>

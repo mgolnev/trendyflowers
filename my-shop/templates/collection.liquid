@@ -1,0 +1,91 @@
+{% include 'breadcrumb' %}
+
+<div class="collection primary-inner">
+  <div class="container">
+    <div class="row">
+
+      {% paginate products by 12 %}
+
+      <div class="collection-aside cell-sm-12 cell-xl-3">
+
+        {% include 'collection-menu-vertical' %}
+
+        {% include 'collection-filters' %}
+
+      </div>
+
+      <div class="collection-inner cell-sm-12 cell-xl-9">
+
+        {% if filter.title %}
+          <div class="page-header row">
+            <div class="header-text cell-xl-8 cell-xs-12">
+              <h1>{{ filter.title | editable }}</h1>
+            </div>
+            <div class="collection-sorting cell-xl-4 cell-xs-12">
+              {% include 'collection-sorting' %}
+            </div>
+          </div>
+        {% else %}
+          <div class="page-header row">
+            <div class="header-text cell-xl-8 cell-xs-12">
+              <h1>{{ collection.title | editable }}</h1>
+            </div>
+            <div class="collection-sorting cell-xl-4 cell-xs-12">
+              {% include 'collection-sorting' %}
+            </div>
+          </div>
+        {% endif %}
+
+        {% if paginate.current_page == 1 %}
+          {% if settings.category_description_position == 'before_products' %}
+
+            {% if filter.description %}
+              <div class="content editor">
+                {{ filter.description | editable }}
+              </div>
+            {% else %}
+              {% if collection.description %}
+                <div class="content editor">
+                  {{ collection.description | editable }}
+                </div>
+              {% endif %}
+            {% endif %}
+
+          {% endif %}
+        {% endif %}
+
+        {% include 'collection-subcategories' %}
+
+        {% include 'collection-products' %}
+
+        {% include 'collection-toolbar-bot' %}
+
+        {% if settings.category_description_position == 'after_products' %}
+          {% if filter.description %}
+            <div class="content editor">
+              {{ filter.description | editable }}
+            </div>
+          {% else %}
+            {% if collection.description %}
+              <div class="content editor">
+                {{ collection.description | editable }}
+              </div>
+            {% endif %}
+          {% endif %}
+        {% endif %}
+
+        {% if paginate.current_page == 1 %}
+          {% if collection.seo_description %}
+            <div class="content editor">
+              {{ collection.seo_description | editable }}
+            </div>
+          {% endif %}
+        {% endif %}
+
+      </div>
+
+      {% endpaginate %}
+
+    </div>
+  </div>
+</div>

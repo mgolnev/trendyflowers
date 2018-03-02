@@ -1,0 +1,95 @@
+{% if blogs.size > 0 %}
+  {% for blog in blogs %}
+    {% if blog.articles.size > 0 %}
+      {% assign is_articles = true %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% if is_articles %}
+ 
+  <div class="news-feed-wrapper">
+    <div class="news-feed-inner container">
+
+      {% assign is_active = false %}
+
+      {% for blog in blogs %}
+
+        {% if blog.articles.size > 0 %}
+          {% assign is_active = true %}
+        {% endif %}
+
+        {% if is_active %}
+
+          <div class="news-feed-header">
+            <h2>{{ blog.title }}</h2>
+          </div>
+
+          <div class="news-feed js-news-feed swiper-container">
+            <div class="swiper-wrapper">
+
+              {% for article in blog.articles limit: 8 %}
+
+                <div class="news swiper-slide">
+                  <div class="row">
+
+                    {% unless settings.article_image_hide %}
+                      <div class="news-photo cell-mc-12 cell-xl-4">
+                        <div class="news-photo-wrapper">
+                          <a href="{{ article.url }}" title="{{ article.title }}" class="news-link with-object-fit">
+                            {% if article.image.large_url contains 'no_image' %}
+                              <img src="{{ 'no_image.png' | asset_url }}" alt="{{ article.title }}" title="{{ article.title }}"
+                                   class="news-image"/>
+                            {% else %}
+                              <img src="{{ article.image.large_url }}" alt="{{ article.title }}" title="{{ article.title }}"
+                                 class="news-image"/>
+                            {% endif %}
+                          </a>
+                        </div>
+                      </div><!-- /.news-photo -->
+                    {% endunless %}
+
+                    <div class="news-caption cell-mc-12 {% unless settings.article_image_hide %}cell-xl-8{% else %}cell-xl-12{% endunless %}">
+
+                      <div class="news-header">
+                        {% unless settings.article_author_hide %}
+                          <span class="news-author"><i class="fa fa-user"></i> {{ article.author }}</span>
+                        {% endunless %}
+                        <span class="news-date"><i class="fa fa-calendar"></i> {{ article.created_at | date: '%Y.%m.%d' }}</span>
+                      </div><!-- /.news-header -->
+
+                      <div class="news-title">
+                        <a href="{{ article.url }}" title="{{ article.title | strip_html | truncate: 100 }}" class="news-link">{{ article.title | strip_html | truncate: 100 }}</a>
+                      </div><!-- /.news-title -->
+
+                      <div class="news-introtext">
+                        {% if article.preview %}
+                          {{ article.preview | strip_html | truncate: 180 | editable }}
+                        {% else %}
+                          {{ article.content | strip_html | truncate: 180 | editable }}
+                        {% endif %}
+                      </div><!-- /.news-introtext -->
+
+                    </div><!-- /.news-caption -->
+
+                  </div>
+                </div><!-- /.news -->
+
+              {% endfor %}
+
+            </div>
+
+            <div class="news-feed-pagination js-news-feed-pagination"></div>
+
+          </div><!-- /.news-feed -->
+
+          {% break %}
+
+        {% endif %}
+
+      {% endfor %}
+
+    </div><!-- /.news-feed-inner -->
+  </div><!-- /.news-feed-wrapper -->
+
+{% endif %}

@@ -1,0 +1,81 @@
+{% capture start_time %}{{ 'now' | date: '%s.%L' }}{% endcapture %}
+
+{% capture collection_menu_horizontal_cache %}collections_menu_{{ collections.last_updated_at }}{% endcapture %}
+
+{% cache collection_menu_horizontal_cache %}
+
+  {% if collections.size > 0 %}
+
+    <div class="collection-menu-horizontal-wrapper">
+      <div class="container">
+        <ul class="collection-menu-horizontal list js-edge-calc">
+
+          {% for link_lvl_1 in collections limit: 20 %}
+
+            {% assign link_dropdown = false %}
+
+            {% if link_lvl_1.subcollections.size > 0 %} {% assign link_dropdown = true %} {% endif %}
+
+            <li class="list-item menu-item {% if link_dropdown %} dropdown is-absolute {% endif %}" data-handle="{{ link_lvl_1.handle }}">
+
+              <a title="{{ link_lvl_1.title }}" href="{{ link_lvl_1.url }}" class="menu-link">
+                <span class="link-text">{{ link_lvl_1.title }}</span>
+                {% if link_dropdown %} <i class="dropdown-icon ion ion-ios-arrow-down"></i> {% endif %}
+              </a>
+
+              {% if link_dropdown %}
+
+                <ul class="submenu list-vertical dropdown-block level-2">
+
+                  {% for link_lvl_2 in link_lvl_1.subcollections limit: 20 %}
+
+                    {% assign link_dropdown = false %}
+
+                    {% if link_lvl_2.subcollections.size > 0 %} {% assign link_dropdown = true %} {% endif %}
+
+                    <li class="list-item menu-item {% if link_dropdown %} dropdown is-absolute {% endif %}" data-handle="{{ link_lvl_2.handle }}">
+
+                      <a title="{{ link_lvl_2.title }}" href="{{ link_lvl_2.url }}" class="menu-link">
+                        <span class="link-text">{{ link_lvl_2.title }}</span>
+                        {% if link_dropdown %} <i class="dropdown-icon ion ion-ios-arrow-right"></i> {% endif %}
+                      </a>
+
+                      {% if link_dropdown %}
+
+                        <ul class="submenu list-vertical dropdown-block level-3">
+
+                          {% for link_lvl_3 in link_lvl_2.subcollections limit: 20 %}
+
+                            <li class="list-item menu-item" data-handle="{{ link_lvl_3.handle }}">
+                              <a title="{{ link_lvl_3.title }}" href="{{ link_lvl_3.url }}" class="menu-link">
+                                <span class="link-text">{{ link_lvl_3.title }}</span>
+                              </a>
+                            </li>
+
+                          {% endfor %}
+
+                        </ul><!-- /.submenu.level-3 -->
+
+                      {% endif %}
+
+                    </li>
+
+                  {% endfor %}
+
+                </ul><!-- /.submenu.level-2 -->
+
+              {% endif %}
+
+            </li>
+
+          {% endfor %}
+
+        </ul><!-- /.collection-menu-horizontal -->
+      </div>
+    </div><!-- /.collection-menu-horizontal-wrapper -->
+
+  {% endif %}
+
+{% endcache %}
+
+<!-- Render time: {{ 'now' | date: '%s.%L' | minus: start_time }} -->

@@ -1,0 +1,95 @@
+<div class="footer">
+  <div class="container">
+
+    <div class="row middle-xl">
+
+      <div class="footer-contacts cell-xl-3 cell-md-6 cell-xs-12 text-center-xs">
+
+        {% case settings.phone %}
+          {% when 'from_settings' %}
+            <div class="phone">{{ account.phone | editable }}</div>
+          {% when 'edited_block' %}
+            <div class="phone">{{ blocks.phone.content | editable }}</div>
+        {% endcase %}
+
+        {% case settings.email %}
+          {% when 'from_settings' %}
+            <div class="email">{{ account.email | editable }}</div>
+          {% when 'edited_block' %}
+            <div class="email">{{ blocks.email.content | editable }}</div>
+        {% endcase %}
+
+      </div><!-- /.footer-contacts -->
+
+      {% if linklists.footer-menu.links.size > 0 %}
+        <div class="footer-menu-wrapper cell-xl-6 cell-md-12 cell-xs-12 text-center-xs">
+          <ul class="footer-menu list">
+            {% for link in linklists.footer-menu.links %}
+              <li class="menu-item list-item">
+                <a href="{{ link.url }}" class="menu-link" title="{{ link.title }}">
+                  {{ link.title }}
+                </a>
+              </li>
+            {% endfor %}
+          </ul><!-- /.footer-menu -->
+        </div><!-- /.footer-menu-wrapper -->
+      {% endif %}
+
+      {% if block_lists.social.blocks.size > 0 %}
+        {% unless settings.social_media_hide %}
+
+          <div class="social-menu-wrapper cell-xl-3 cell-md-6 cell-xs-12 text-center-xs text-right-xl">
+            <ul class="social-menu list">
+
+              {% for group in block_lists.social.blocks %}
+
+                {% assign icon_name = false %}
+
+                {% if group.link contains 'vk.com' %}
+                  {% assign icon_name = 'vk' %}
+                {% endif %}
+
+                {% if group.link contains 'facebook.com' %}
+                  {% assign icon_name = 'facebook' %}
+                {% endif %}
+
+                {% if group.link contains 'twitter.com' %}
+                  {% assign icon_name = 'twitter' %}
+                {% endif %}
+
+                {% if group.link contains 'youtube.com' %}
+                  {% assign icon_name = 'youtube' %}
+                {% endif %}
+
+                {% if group.link contains 'instagram.com' %}
+                  {% assign icon_name = 'instagram' %}
+                {% endif %}
+
+                {% if group.link contains 'google.com' %}
+                  {% assign icon_name = 'google-plus' %}
+                {% endif %}
+
+                {% if icon_name %}
+                  <li class="menu-item list-item">
+                    <a target="blank" title='{{ group.title }}' href="{{ group.link }}" class="menu-link"><i class="fa fa-{{ icon_name }}"></i></a>
+                  </li>
+                {% endif %}
+
+              {% endfor %}
+
+            </ul><!-- /.social-menu -->
+          </div><!-- /.social-menu-wrapper -->
+
+        {% endunless %}
+      {% endif %}
+
+    </div>
+
+    <div class="created-by row text-right-xl">
+      <div class="cell-xl-12">
+        <a target="_blank" href="{{ messages.insales_domain }}" title='{{ messages.created_by }}'>{{ messages.created_by }}</a>
+      </div>
+    </div><!-- /.created-by -->
+
+  </div>
+</div>

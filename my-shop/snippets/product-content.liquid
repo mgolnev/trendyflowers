@@ -1,0 +1,66 @@
+<ul class="tabs-menu product-tabs-menu">
+
+  {% assign is_active = false %}
+
+  {% if product.description %}
+    {% assign is_active = true %}
+    <li class="tabs-item menu-item active">
+      <a href="#product-description" data-toggle="tabs" class="tabs-link menu-link">{{ messages.label_description }}</a>
+    </li>
+  {% endif %}
+
+  {% if product.properties.size > 0 %}
+    <li class="tabs-item menu-item {% unless is_active %}active {% assign is_active = true %}{% endunless %}">
+      <a href="#product-characteristics" data-toggle="tabs" class="tabs-link menu-link">{{ messages.label_characteristics }}</a>
+    </li>
+  {% endif %}
+
+  {% if account.reviews_enabled? %}
+    <li class="tabs-item menu-item {% unless is_active %}active {% assign is_active = true %}{% endunless %}">
+      <a href="#product-reviews" data-toggle="tabs" class="tabs-link menu-link">{{ messages.label_reviews }}</a>
+    </li>
+  {% endif %}
+
+</ul><!-- /.product-tabs-menu -->
+
+<div class="tabs-list product-tabs-list">
+
+  {% assign is_active = false %}
+
+  {% if product.description %}
+    {% assign is_active = true %}
+    <div id="product-description" class="tab-block active">
+      <div class="editor">
+        {{ product.description | editable }}
+      </div>
+    </div><!-- /#product-description -->
+  {% endif %}
+
+  {% if product.properties.size > 0 %}
+    <div id="product-characteristics" class="tab-block {% unless is_active %}active {% assign is_active = true %}{% endunless %}">
+      <div class="editor with-styled-table">
+        <table class="table properties-table table-bordered table-striped table-hover">
+
+          {% for property in product.properties %}
+            <tr>
+              <td>{{ property.name }}</td>
+              <td>
+                {% for characteristic in property.characteristics %}
+                  <span class="property-value">{{ characteristic.title }}</span>
+                {% endfor %}
+              </td>
+            </tr>
+          {% endfor %}
+
+        </table>
+      </div>
+    </div><!-- /#product-characteristics -->
+  {% endif %}
+
+  {% if account.reviews_enabled? %}
+    <div id="product-reviews" class="tab-block {% unless is_active %}active {% assign is_active = true %}{% endunless %}">
+      {% include 'product-reviews' %}
+    </div><!-- /#product-comment -->
+  {% endif %}
+
+</div><!-- /.product-tabs-list -->

@@ -1,0 +1,15 @@
+<div class="articles-list">
+
+  {% paginate articles by 5 %}
+
+    {% for article in articles %}
+      {% include "article-preview" with "blog" %}
+    {% endfor %}
+
+    {% if paginate.parts.size > 1 %}
+      {% include "pagination" %}
+    {% endif %}
+
+  {% endpaginate %}
+
+</div><!-- /.articles-list -->

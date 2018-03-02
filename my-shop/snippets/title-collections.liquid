@@ -1,0 +1,49 @@
+{% if data.blocks.size > 0 %}
+
+  <div class="title-collections">
+    <div class="title-collections-inner container">
+      <ul class="tabs-menu collections-tabs"><!-- /.collections-tabs -->
+
+        {% assign is_active = false %}
+        {% for block in data.blocks %}
+
+          {% if block.collection.products.size > 0 %}
+            <li class="tabs-item menu-item {% unless is_active %} active {% assign is_active = true %}{% endunless %}">
+              <a class="tabs-link menu-link" href="#{{ block.collection.handle }}" data-toggle="tabs">{{ block.collection.title | editable }}</a>
+            </li>
+          {% endif %}
+
+        {% endfor %}
+
+      </ul>
+
+      <div class="tabs-list collections-list">
+
+        {% assign is_active = false %}
+        {% for block in data.blocks %}
+
+          {% if block.collection.products.size > 0 %}
+            <div class="tab-block {% unless is_active %} active {% assign is_active = true %}{% endunless %}"
+                 id="{{ block.collection.handle }}">
+
+              <div class="products-list row">
+                {% for product in block.collection.products %}
+
+                  <div class="product-card cell-xs-12 cell-md-6 cell-lg-4 cell-xl-3">
+                    {% include 'product-card' %}
+                  </div><!-- /.product-card -->
+
+                {% endfor %}
+              </div><!-- /.products-list -->
+
+            </div><!-- /.tab-block -->
+          {% endif %}
+
+
+        {% endfor %}
+
+      </div><!-- /.collections-list -->
+    </div>
+  </div><!-- /.title-collections -->
+
+{% endif %}

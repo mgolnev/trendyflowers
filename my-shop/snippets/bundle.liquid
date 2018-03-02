@@ -1,0 +1,33 @@
+{% if product.is_bundle %}
+
+  <div class="bundle-products primary-inner">
+    <div class="bundle-products-inner container">
+
+      <div class="block-header is-small">
+        <h2>{{ messages.bundle_includes }}</h2>
+      </div>
+
+      <div class="bundle-products row">
+
+        {% for bundle_component in product.bundle_components %}
+          <div class="product-card-bundle cell-xl-12">
+            {% include 'product-card-bundle' with bundle_component %}
+          </div><!-- /.product-card -->
+        {% endfor %}
+
+      </div>
+
+      {% if product.is_bundle and product.bundle_discount > 0 %}
+        <span class="bundle-discount">
+        <div class="bundle-caption">{{ messages.subtotal }}:</div>
+        <div class="bundle-prices">
+          <span class="product-price">{{ product.price | money }}</span>
+          <span class="bundle-price">{{ product.bundle_discount | money }}</span>
+        </div>
+      </span>
+      {% endif %}
+
+    </div>
+  </div><!-- /.bundle-products -->
+
+{% endif %}

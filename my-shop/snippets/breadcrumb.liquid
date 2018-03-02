@@ -1,0 +1,145 @@
+<div class="breadcrumb-wrapper primary-inner">
+  <div class="container">
+
+    <ul class="breadcrumb">
+
+      <li class="breadcrumb-item home">
+        <a class="breadcrumb-link" title='{{ messages.breadcrumb_home }}' href="/">{{ messages.breadcrumb_home }}</a>
+      </li>
+
+      {% case template %}
+
+      {% when 'page' %}
+
+      <li class="breadcrumb-item"><span class="breadcrumb-link current-page">{{ page.title }}</span></li>
+
+      {% when 'search' %}
+
+      <li class="breadcrumb-item"><span class="breadcrumb-link current-page">{{ messages.search_title }}</span></li>
+
+      {% when 'blog' %}
+
+      <li class="breadcrumb-item"><span class="breadcrumb-link current-page">{{ blog.title }}</span></li>
+
+      {% when 'article' %}
+
+      <li class="breadcrumb-item">
+        <a class="breadcrumb-link" title='{{ collection.title }}' href="{{ blog.url }}">{{ blog.title }}</a>
+      </li>
+
+      <li class="breadcrumb-item">
+        <span class="breadcrumb-link current-page">{{ article.title }}</span>
+      </li>
+
+      {% when 'cart' %}
+
+      <li class="breadcrumb-item">
+        <span class="breadcrumb-link current-page">{{ messages.cart_title }}</span>
+      </li>
+
+      {% when 'compare' %}
+
+      <li class="breadcrumb-item">
+        <span class="breadcrumb-link current-page">{{ messages.comparison_title }}</span>
+      </li>
+
+      {% when 'collection' %}
+
+      {% if current_collections.size > 0 %}
+
+        {% for collection in current_collections %}
+          {% if collection.level > 0 %}
+            {% if forloop.last %}
+              <li class="breadcrumb-item"><span class="breadcrumb-link current-page">{{ collection.title }}</span></li>
+            {% else %}
+              <li class="breadcrumb-item"><a class="breadcrumb-link" title='{{ collection.title }}'
+                                             href="{{ collection.url }}">{{ collection.title }}</a></li>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+
+      {% else %}
+
+        {% if product.collections.size > 0 %}
+          {% assign deep_collection = product.collections.first %}
+          {% for collection in product.collections %}
+            {% if deep_collection.level < collection.level %}
+              {% assign deep_collection = collection %}
+            {% endif %}
+          {% endfor %}
+
+          {% for collection in deep_collection.current_collections %}
+            {% if collection.level > 0 %}
+              {% if forloop.last %}
+                <li class="breadcrumb-item"><span class="breadcrumb-link current-page">{{ collection.title }}</span>
+                </li>
+              {% else %}
+                <li class="breadcrumb-item"><a class="breadcrumb-link" title='{{ collection.title }}'
+                                               href="{{ collection.url }}">{{ collection.title }}</a></li>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+
+      {% endif %}
+
+      {% when 'product' %}
+
+      {% if current_collections.size > 0 and collection.handle != 'frontpage' %}
+
+        {% for collection in current_collections %}
+          {% if collection.level > 0 %}
+            {% if forloop.last %}
+              {% if template == 'product' %}
+                <li class="breadcrumb-item">
+                  <a class="breadcrumb-link" title='{{ collection.title }}' href="{{ collection.url }}">{{ collection.title }}</a>
+                </li>
+                <li class="breadcrumb-item"><span class="breadcrumb-link current-page">{{ product.title }}</span></li>
+              {% else %}
+                <li class="breadcrumb-item"><span class="breadcrumb-link current-page">{{ collection.title }}</span>
+                </li>
+              {% endif %}
+            {% else %}
+              <li class="breadcrumb-item">
+                <a class="breadcrumb-link" title='{{ collection.title }}' href="{{ collection.url }}">{{ collection.title }}</a>
+              </li>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+
+      {% else %}
+
+        {% if product.collections.size > 0 %}
+          {% assign deep_collection = product.collections.first %}
+          {% for collection in product.collections %}
+            {% if deep_collection.level < collection.level %}
+              {% assign deep_collection = collection %}
+            {% endif %}
+          {% endfor %}
+
+          {% for collection in deep_collection.current_collections %}
+            {% if collection.level > 0 %}
+              {% if forloop.last %}
+                <li class="breadcrumb-item">
+                  <a class="breadcrumb-link" title='{{ collection.title }}' href="{{ collection.url }}">{{ collection.title }}</a>
+                </li>
+                <li class="breadcrumb-item"><span class="breadcrumb-link current-page">{{ product.title }}</span></li>
+              {% else %}
+                <li class="breadcrumb-item">
+                  <a class="breadcrumb-link" title='{{ collection.title }}' href="{{ collection.url }}">{{ collection.title }}</a>
+                </li>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endif %}
+
+      {% else %}
+      <li class="breadcrumb-item"><span class="breadcrumb-link current-page">{% yield 'title' %}</span></li>
+
+      {% endcase %}
+
+    </ul><!-- /.breadcrumb -->
+
+  </div>
+</div><!-- /.breadcrumb-wrapper -->

@@ -1,0 +1,88 @@
+<div class="row">
+
+  {% if product.images.size > 0 %}
+
+    {% if product.images.size > 1 %}
+
+      <div class="gallery-thumbs-wrapper cell-xl-3">
+        <div class="gallery-thumbs swiper-container-vertical js-gallery-thumbs">
+          <div class="swiper-wrapper">
+            {% for image in product.images %}
+              {% if image.title %}
+                {% assign current_title = image.title %}
+              {% else %}
+                {% assign current_title = product.title %}
+              {% endif %}
+              <div class="swiper-slide {% if forloop.index == 1 %} active {% endif %} js-gallery-trigger" data-link="{{ image.url }}">
+                <div class="slide-inner with-object-fit">
+                  <img src="{{ image.large_url }}" alt="{{ current_title | strip_html }}" title="{{ current_titlecurrent_title | strip_html }}" class="slide-image">
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+          <button type="button" class="gallery-thumbs-prev js-gallery-thumbs-prev">
+            <i class="ion-chevron-up"></i>
+          </button>
+          <button type="button" class="gallery-thumbs-next js-gallery-thumbs-next">
+            <i class="ion-chevron-down"></i>
+          </button>
+        </div>
+      </div><!-- /.gallery-thumbs-wrapper -->
+
+      <div class="gallery-main-wrapper cell-xl-9">
+
+        <div class="gallery-main swiper-container js-product-gallery-main">
+          <div class="swiper-wrapper">
+            {% for image in product.images %}
+              {% if image.title %}
+                {% assign current_title = image.title %}
+              {% else %}
+                {% assign current_title = product.title %}
+              {% endif %}
+              <div class="swiper-slide">
+                <div class="slide-inner">
+                  <a href="{{ image.original_url }}" title="{{ current_title | strip_html }}" class="image-wrapper popup-gallery" data-effect="mfp-zoom-in">
+                    {% include 'product-labels' %}
+                    <img src="{{ image.large_url }}" alt="{{ current_title | strip_html }}" title="{{ current_title | strip_html }}"
+                         class="slide-image">
+                  </a>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div><!-- /.gallery-main -->
+
+      </div><!-- /.gallery-main-wrapper -->
+
+    {% else %}
+
+      <div class="cell-xl-12 gallery-main-wrapper">
+
+        {% if product.images.first.title %}
+          {% assign current_title = product.images.first.title %}
+        {% else %}
+          {% assign current_title = product.title %}
+        {% endif %}
+
+        <a href="{{ product.images.first.original_url }}" class="image-wrapper popup-gallery" data-effect="mfp-zoom-in" title="{{ current_title | strip_html }}">
+          {% include 'product-labels' %}
+          <img src="{{ product.images.first.large_url }}" alt="{{ current_title | strip_html }}" title="{{ current_title | strip_html }}" class="product-image">
+        </a>
+
+      </div><!-- /.gallery-main-wrapper -->
+
+    {% endif %}
+
+  {% else %}
+
+    <div class="cell-xl-12 gallery-main-wrapper">
+      <a href="{{ 'no_image.png' | asset_url }}" class="image-wrapper popup-gallery" data-effect="mfp-zoom-in" title="{{ product.title | strip_html }}">
+        {% include 'product-labels' %}
+        <img src="{{ 'no_image.png' | asset_url }}" alt="{{ product.title | strip_html }}" title="{{ product.title | strip_html }}" class="product-image">
+      </a>
+
+    </div><!-- /.gallery-main-wrapper -->
+
+  {% endif %}
+
+</div>

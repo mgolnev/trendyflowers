@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang='ru' xml:lang='ru' xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta content='noindex, nofollow' name='robots'>
+
+  <title>{% yield 'title' %}</title>
+
+  {% assign custom_checkout_css = 'custom_checkout.css' | asset_url_if_exists %}
+
+  {% if custom_checkout_css %}
+    <link href='{{ custom_checkout_css }}' rel='stylesheet'>
+  {% endif %}
+
+  {% include 'styles' %}
+
+  <script src="{{ 'modernizr-custom.js' | asset_url }}"></script>
+
+  <!-- icons-->
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ 'favicon.png' | asset_url }}"/>
+
+  <!-- fixes -->
+  <!--[if IE]>
+  <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <!--[if lt IE 9]>
+  <script src="//css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+  <![endif]-->
+
+</head>
+<body class="adaptive">
+
+<div class="page-wrapper">
+
+  {% include 'top-toolbar' %}
+
+  <div class="page-inner">
+
+    {% include 'header' %}
+
+    {% include 'collection-menu-horizontal' %}
+
+    {% include 'breadcrumb' %}
+
+    <div class="checkout-v1-wrapper primary-inner">
+
+      <div class="container">
+
+        <div class='wrapper body fc'>
+
+          {% if client %}
+            <div class='userbar fc'>
+              <div class='links fl'>
+                {% if linklists.account-menu %}
+                  {% for link in linklists.account-menu.links %}<a href='{{ link.url }}'>
+                    {{ link.title }}
+                    </a>|{% endfor %}
+                {% else %}<a href='/'>
+                  <span class='b'>Вернуться в магазин</span>
+                </a>|<a href='/client_account/contacts'>
+                  <span>Контактные данные</span>
+                </a>|<a href='/client_account/addresses'>
+                  <span>Адрес доставки</span>
+                </a>|<a href='/client_account/orders'>
+                  <span class='b'>Заказы и скидки</span>
+                </a>|<a href='/client_account/feedback'>
+                  <span>Обратная связь</span>
+                </a>{% endif %}
+              </div>
+              <div class='profile fr'>
+                {{ client.full_name }}
+                <b></b>
+                (<a href='/client_account/exit'>Выход</a>)
+              </div>
+            </div>
+          {% endif %}
+
+          <div class='page-title'>{% yield 'title' %}</div>
+
+          {% yield 'flash_messages' %}
+          <div id='top_info'>{% yield 'top_info' %}</div>
+          {% yield %}
+
+          {% yield 'sidebar' %}
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  {% include 'footer' %}
+
+</div>
+
+{% include 'left-toolbar' %}
+
+{% include 'modals' %}
+
+{% include 'scripts' %}
+
+</body>
+</html>

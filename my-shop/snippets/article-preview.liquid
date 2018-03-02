@@ -1,0 +1,75 @@
+<div class="article-preview row">
+
+  {% unless settings.article_image_hide %}
+    <div class="cell-xl-2 cell-xs-12">
+      <div class="article-image-wrapper">
+        <a href="{{ article.url }}" title="{{ article.title }}" class="article-image-inner with-object-fit">
+          {% if article.image.medium_url contains 'no_image' %}
+            <img src="{{ 'no_image.png' | asset_url }}" alt="{{ article.title }}" title="{{ article.title }}"
+                 class="article-image"/>
+          {% else %}
+            <img src="{{ article.image.large_url }}" alt="{{ article.title }}" title="{{ article.title }}"
+                 class="article-image"/>
+          {% endif %}
+        </a>
+      </div>
+    </div><!-- /article image -->
+  {% endunless %}
+
+  <div class="article-caption {% unless settings.article_image_hide %}cell-xl-10{% endunless %} cell-xs-12">
+
+    <div class="article-header">
+
+      <div class="article-title">
+        <h3><a href="{{ article.url }}"> {{ article.title | strip_html | truncate: 100 | editable }}</a></h3>
+      </div>
+
+      {% unless settings.article_author_hide %}
+        <span class="author"><i class="fa fa-user"></i> {{ article.author }}</span>
+      {% endunless %}
+
+      {% if blog.comments_enabled? %}
+        <span class="comments-count">
+          <i class="fa fa-comments"></i>
+          <a href="{{ article.url }}#comments-block">{{ messages.comments }} <b>({{ article.comments_count }})</b></a>
+        </span>
+      {% endif %}
+
+      <span class="date"><i class="fa fa-calendar"></i> {{ article.created_at | date: "%d.%m.%Y" }}</span>
+
+    </div><!-- /.article-header -->
+
+    <div class="article-body">
+
+      <div class="article-introtext">
+        <p>{% if article.has_preview? %}
+            {{ article.preview | editable }}
+          {% else %}
+            {{ article.content | strip_html | truncate: 180 | editable }}
+          {% endif %}
+        </p>
+      </div>
+
+      {% unless article.tags == empty %}
+        <div class="article-tags">
+          <ul class="tags-list list is-small">
+            {% for tag in article.tags %}
+              <li class="tag-item">
+                <a href="{{ tag.url }}" class="tag is-primary" title="{{ tag.title }}">{{ tag.title }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endunless %}
+
+      <div class="article-link">
+        <a href="{{ article.url }}" title="{{ article.title }}" class="button button-primary">
+          <span class="button-text">{{ messages.button_more }}</span>
+        </a>
+      </div>
+
+    </div><!-- /.article-body -->
+
+  </div><!-- /.article-caption -->
+
+</div>

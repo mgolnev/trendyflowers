@@ -1,0 +1,57 @@
+<div class="cart-item row middle-xl" data-product-id="{{ item.product.id }}" data-item-id="{{ item.id }}">
+
+  <div class="item-image-wrapper cell-xl-2">
+    <div class="item-image-inner">
+      <a href="{{ item.product.url }}" title='{{ item.title }}' class="item-image-link">
+        {% if item.image %}
+          <img title='{{ item.title }}' alt='{{ item.title }}' src="{{ item.image.medium_url }}" class="item-image">
+        {% else %}
+          <img title='{{ item.title }}' alt='{{ item.title }}' src="{{ 'no_image.png' | asset_url }}" class="item-image">
+        {% endif %}
+      </a>
+    </div>
+  </div><!-- /.item-image -->
+
+  <div class="item-caption cell-xs-12 cell-sm-6 cell-md-3 cell-xl-3">
+    <div class="item-title">
+      <a href="{{ item.product.url }}"> {{ item.title }}</a>
+    </div>
+    {% if item.sku %}
+      <div class="item-article hide-xs">Артикул: {{ item.sku }}</div>
+    {% endif %}
+  </div><!-- /.item-caption -->
+
+  <div class="item-price in-item hide-mc cell-sm-6 cell-md-2 cell-xl-2">
+    <div class="price-number js-item-price">
+      {{ item.sale_price | money }}
+    </div>
+    <div class="item-old-price js-item-old-price">
+      {{ item.variant.old_price | money }}
+    </div>
+  </div><!-- /.item-price -->
+
+  <div class="item-counter cell-mc-7 cell-sm-6 cell-xl-2" data-quantity>
+    <div class="counter">
+      <button type="button" data-quantity-change="-1" class="button button-number count-down">
+        <i class="icon ion-ios-minus-empty"></i>
+      </button>
+      <input type="text" value="{{ item.quantity }}" min="1" max="1000" name="cart[quantity][{{ item.id }}]" class="input-number input-field"/>
+      <button type="button" data-quantity-change="1" class="button button-number count-up">
+        <i class="icon ion-ios-plus-empty"></i>
+      </button>
+    </div>
+  </div><!-- /.item-counter -->
+
+  <div class="item-total in-item cell-mc-5 cell-sm-6 cell-xl-2">
+    <span class="js-item-total-price">
+      {{ item.total_price | money }}
+    </span>
+  </div><!-- /.item-total -->
+
+  <div class="item-remove cell-xl-1">
+    <button type="submit" class="button button-error" data-item-delete="{{ item.id }}">
+      <i class="fa fa-remove"></i>
+    </button>
+  </div><!-- /.item-remove -->
+
+</div><!-- /.cart-item -->

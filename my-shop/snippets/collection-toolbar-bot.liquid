@@ -1,0 +1,74 @@
+{% if products.size > 0 %}
+
+  <form class="collection-toolbar-top row" action="{{ collection.url }}" method="get">
+
+    <div class="pages-navbar cell-sm-12 cell-xl-8">
+      {% include 'pagination' %}
+    </div><!-- /.pages-navbar -->
+
+    <div class="collection-limit cell-sm-12 cell-xl-4 text-right-xl text-left-sm">
+
+      {% if collection.products.size > 12 %}
+
+        <label class="label-field">{{ messages.label_limit }}:</label>
+
+        <div class="select-wrapper">
+          <select class="select-field js-filter-trigger" name="page_size">
+            {{ "12"   | select_option: page_size, "12" }}
+            {{ "24"   | select_option: page_size, "24" }}
+            {{ "48"   | select_option: page_size, "48" }}
+            {{ "96"   | select_option: page_size, "96" }}
+          </select>
+        </div>
+
+      {% endif %}
+
+    </div><!-- /.collection-limit -->
+
+    <input type="hidden" name="price_min"
+           value="{{ price_min }}" {% unless price_min %} disabled {% endunless %}/>
+    <input type="hidden" name="price_max"
+           value="{{ price_max }}" {% unless price_max %} disabled {% endunless %}/>
+
+    {% if order %}
+      <input type="hidden" name="order" value="{{ order }}"/>
+    {% endif %}
+
+    {% if language.not_default? %}
+      <input type="hidden" name="lang" value="{{ language.locale }}"/>
+    {% endif %}
+
+    {% if search.query != '' %}
+      <input type="hidden" name="q" value="{{ search.query }}"/>
+    {% endif %}
+
+    {% for property in collection.properties %}
+      {% for characteristic in property.characteristics %}
+        {% if characteristic.current? %}
+          <input
+            type="hidden"
+            value="{{ characteristic.id }}"
+            name="characteristics[]"
+            id="{{ characteristic.id }}"
+          />
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+
+    {% for option in collection.options %}
+      {% for value in option.values %}
+        {% if value.selected %}
+          <input
+            type="hidden"
+            value="{{ value.id }}"
+            {% if value.selected %}checked{% endif %}
+            name="options[{{ option.id }}][]"
+            id="{{ value.id }}"
+          />
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+
+  </form><!-- /.collection-toolbar-top -->
+
+{% endif %}

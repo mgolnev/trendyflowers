@@ -1,0 +1,131 @@
+<div class="product-title on-page"><h1 class="js-product-title">{{ product.title | editable }}</h1>
+</div><!-- /.product-title -->
+
+<div class="product-introtext on-page">
+  {{ product.short_description | editable }}
+
+  {% if product.not_available? %}
+    {% if settings.product_not_available == 'show' %}
+      {% unless settings.product_not_available_hide %}
+      <p class="notice notice-info"> {{ messages.product_not_available_extended }}</p>
+      {% endunless %}
+    {% endif %}
+  {% endif %}
+
+</div><!-- /.product-introtext -->
+
+{% if product.is_bundle %}
+  <input type="hidden" name="variant_id" value="{{ product.variants.first.id }}">
+{% else %}
+  <div class="option-selectors">
+    {% if product.show_variants? %}
+      <select class="hidden" name="variant_id" data-product-variants style="display: none;">
+        {% for variant in product.variants %}
+          <option value="{{ variant.id }}">{{ variant.title | escape }}</option>
+        {% endfor %}
+      </select>
+    {% else %}
+      <input type="hidden" name="variant_id" value="{{ product.variants.first.id }}">
+    {% endif %}
+  </div><!-- /.option-selectors -->
+{% endif %}
+
+<div class="product-article">
+  <div class="row js-product-sku" style="display: none;">
+    <div class="article-param cell-xl-3">{{ messages.label_article }}</div>
+    <div class="article-value cell-xl-9">{{ product.variants.first.sku }}</div>
+  </div>
+</div><!-- /.product-article -->
+
+<div class="product-prices on-page" style="display: none;">
+  <div class="price js-product-price">{{ product.price | money }}</div>
+  <div class="old-price js-product-old-price">
+    {% if product.old_price %}
+      {% if product.old_price > product.price %}
+        {{ product.old_price | money }}
+      {% endif %}
+    {% endif %}
+  </div>
+</div><!-- /.product-prices -->
+
+<div class="product-control on-page row middle-xl" data-compare="{{ product.id }}">
+
+  <div class="counter-wrapper js-counter-wrapper cell-xl-4 cell-lg-6  cell-sm-4 cell-xs-12 text-center-xs" style="display: none;">
+    <div class="counter" data-quantity>
+      <button type="button" data-quantity-change="-1" class="button button-number count-down">
+        <i class="icon ion-ios-minus-empty"></i>
+      </button>
+      <input type="text" value="1" min="1" max="1000" name="quantity" class="input-number input-field"/>
+      <button type="button" data-quantity-change="1" class="button button-number count-up">
+        <i class="icon ion-ios-plus-empty"></i>
+      </button>
+    </div>
+  </div><!-- /.counter-wrapper -->
+
+  <div class="buy cell-xl-4 cell-lg-6 cell-sm-4 cell-xs-12"><!-- /.buy elements -->
+
+    <div class="product-order-variant js-variant-available" style="display: none;">
+      <button class="button button-buy button-primary" type="submit" data-item-add>
+        <i class="icon button-icon buy-icon ion-ios-cart-outline"></i>
+        <span class="button-text">{{ messages.button_to_cart }}</span>
+      </button>
+    </div><!-- /.variant-available -->
+
+    <div class="product-order-variant js-variant-not-available hide-xl" style="display: none;">
+      <p class="notice notice-info">{{ messages.product_not_available }}</p>
+    </div><!-- /.variant-not-available -->
+
+    <div class="product-order-variant js-variant-preorder hide-xl" style="display: none;">
+      <a href="#js-preorder-modal" class="button button-buy button-primary js-preorder-open" data-effect="mfp-zoom-in">
+        <i class="icon button-icon feedback-icon ion-email"></i>
+        <span class="button-text">{{ messages.button_preorder }}</span>
+      </a>
+    </div><!-- /.variant-preorder -->
+
+  </div>
+
+  {% unless settings.product_compare_hide %}
+  {% if account.enable_comparison? %}
+    <div class="compare-control cell-xl-4 cell-lg-12  cell-sm-4 cell-xs-12 hide-sm">
+
+      <a href="#" class="compare-link compare-add" data-compare-add="{{ product.id }}">
+        <i class="compare-icon ion-stats-bars"></i>
+        <span class="link-text">{{ messages.button_add_comparison }}</span>
+      </a>
+
+      <a href="#" class="compare-link compare-delete"
+         data-compare-delete="{{ product.id }}">
+        <i class="compare-icon ion-stats-bars"></i>
+        <span class="link-text">{{ messages.button_remove_comparison }}</span>
+      </a>
+
+    </div><!-- /.compare-control -->
+  {% endif %}
+  {% endunless %}
+
+  {% if account.quick_checkout.enabled %}
+    <div class="one-click cell-xl-12">
+      <div class="product-order-variant js-variant-available" style="display: none;">
+        <button class="button button-action is-bigger" type="submit" data-quick-checkout>
+          <i class="icon button-icon buy-icon ion-ios-cart-outline"></i>
+          <span class="button-text">
+            {% if account.quick_checkout.button_title %}
+              {{ account.quick_checkout.button_title }}
+            {% else %}
+              {{ messages.button_one_click }}
+            {% endif %}
+          </span>
+        </button>
+      </div><!-- /.variant-available -->
+    </div>
+  {% endif %}
+
+  {% unless settings.product_share_hide %}
+  <div class="share cell-mc-12">
+    <script type="text/javascript" src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="//yastatic.net/share2/share.js" charset="utf-8"></script>
+    <div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,moimir,gplus,twitter,lj" data-counter=""></div>
+  </div><!-- /.share -->
+  {% endunless %}
+
+</div><!-- /.product-control -->

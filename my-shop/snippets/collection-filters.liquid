@@ -1,0 +1,194 @@
+{% if collection.products.size > 0 %}
+
+  <form class="collection-toolbar collapse on-mobile" action="{{ collection.url }}" method="get">
+
+    <button type="button" class="button button-primary collapse-toggle hidden-xl shown-sm">
+      <span class="button-text">Фильтры</span>
+      <span class="filter-total-count js-filter-total-counter">0</span>
+      <span class="collapse-icon button-icon icon ion-chevron-down"></span>
+    </button>
+
+    <div class="collapse-block on-mobile">
+
+      <div class="collection-filters">
+
+        <div class="filters-block">
+
+          {% for option in collection.options %}
+
+            {% assign filter_active = false %}
+            {% for value in option.values %}
+              {% if value.selected %}
+                {% assign filters_active = true %}
+                {% assign filter_active = true %}
+              {% endif %}
+            {% endfor %}
+
+            <div class="filter js-filter-checkbox collapse {% if filter_active %}is-opened{% endif %}">
+
+              <div class="filter-control">
+                <button class="button button-grey collapse-toggle {% if filter_active %} active {% endif %}" type="button">
+                  <span class="filter-name">{{ option.title }}</span>
+                  <span class="collapse-icon icon ion-chevron-down"></span>
+                  <sup class="filter-count js-filter-count"></sup>
+                </button>
+                <button class="button filter-clear js-filter-clear" type="button"><i
+                    class="icon clear-icon ion-ios-close-outline"></i>
+                </button>
+              </div><!-- /.filter-control -->
+
+              <div class="filter-items collapse-block">
+
+                <ul class="list-vertical js-scrollable items-list">
+
+                  {% for value in option.values %}
+                    <li class="list-item">
+                      <input autocomplete="off" class="js-filter-field checkbox-field" type="checkbox"
+                             value="{{ value.id }}"
+                             {% if value.selected %}checked{% endif %} name="options[{{ option.id }}][]"
+                             id="{{ value.id }}"/>
+                      <label class="checkbox-label" for="{{ value.id }}">{{ value.title }}</label>
+                    </li>
+                  {% endfor %}
+
+                </ul><!-- /.items-list -->
+
+                <div class="dropdown-block-control">
+                  <button class="button button-primary" type="submit">
+                    <span class="button-text">{{ messages.button_apply }}</span>
+                  </button>
+                </div><!-- /.dropdown-block-control -->
+
+              </div><!-- /.filter-items -->
+
+            </div><!-- /.filter -->
+
+          {% endfor %}
+
+          {% for property in collection.properties %}
+
+            {% assign filter_active = false %}
+            {% for characteristic in property.characteristics %}
+              {% if characteristic.current? %}
+                {% assign filters_active = true %}
+                {% assign filter_active = true %}
+              {% endif %}
+            {% endfor %}
+
+            <div class="filter js-filter-checkbox collapse {% if filter_active %}is-opened{% endif %}">
+
+              <div class="filter-control">
+                <button class="button button-grey collapse-toggle {% if filter_active %}active{% endif %}" type="button">
+                  <span class="filter-name">{{ property.title }}</span>
+                  <span class="collapse-icon icon ion-chevron-down"></span>
+                  <sup class="filter-count js-filter-count"></sup>
+                </button>
+                <button class="button filter-clear js-filter-clear" type="button">
+                  <i class="icon clear-icon ion-ios-close-outline"></i>
+                </button>
+              </div><!-- /.filter-control -->
+
+              <div class="filter-items collapse-block">
+
+                <ul class="list-vertical js-scrollable items-list">
+
+                  {% for characteristic in property.characteristics %}
+                    <li class="list-item">
+                      <input autocomplete="off" class="js-filter-field checkbox-field" type="checkbox"
+                             value="{{ characteristic.id }}"
+                             {% if characteristic.current? %}checked{% endif %} name="characteristics[]"
+                             id="{{ characteristic.id }}"/>
+                      <label class="checkbox-label" for="{{ characteristic.id }}">{{ characteristic.title }}</label>
+                    </li>
+                  {% endfor %}
+
+                </ul><!-- /.items-list -->
+
+                <div class="dropdown-block-control">
+                  <button class="button button-primary" type="submit">
+                    <span class="button-text">{{ messages.button_apply }}</span>
+                  </button>
+                </div><!-- /.dropdown-block-control -->
+
+              </div><!-- /.filter-items -->
+
+            </div><!-- /.filter -->
+
+          {% endfor %}
+
+          {% assign filter_active = false %}
+          {% assign coll_min = collection.products_price_min | round: 0 %}
+          {% assign coll_max = collection.products_price_max | round: 0 %}
+
+          {% if price_max or price_min %}
+            {% assign filter_active = true %}
+            {% assign filters_active = true %}
+          {% endif %}
+
+          <div class="filter collapse {% if filter_active %}is-opened{% endif %}">
+
+            <div class="filter-control">
+              <button class="button button-grey collapse-toggle {% if filter_active %}is-active{% endif %}" type="button">
+                <span class="filter-name">{{ messages.label_price }}</span>
+                <span class="collapse-icon icon ion-chevron-down"></span>
+                <sup class="filter-count js-filter-count"></sup>
+              </button>
+              <button class="button filter-clear js-filter-price-clear" type="button"><i
+                  class="icon clear-icon ion-ios-close-outline"></i>
+              </button>
+            </div><!-- /.filter-control -->
+
+            <div class="filter-items collapse-block">
+
+              <div class="filter-body range-slider js-range-slider-wrapper">
+                <div class="js-range-slider"
+                     data-min="{{ coll_min }}"
+                     data-max="{{ coll_max }}"
+                     data-from="{{ price_min }}"
+                     data-to="{{ price_max }}">
+                </div>
+                <div class="range-slider-input">
+                  <input class="js-input-from js-input" type="hidden" name="price_min"
+                         value="{{ price_min }}" {% unless filter_active and price_min %} disabled {% endunless %}/>
+                  <input class="js-input-to js-input" type="hidden" name="price_max"
+                         value="{{ price_max }}" {% unless filter_active and price_max %} disabled {% endunless %}/>
+                  <span class="slider-label js-label-from">{{ price_min }}</span>
+                  <span class="slider-label js-label-to">{{ price_max }}</span>
+                </div>
+              </div><!-- /.filter-body -->
+
+              <div class="dropdown-block-control">
+                <button class="button button-primary" type="submit">
+                  <span class="button-text">{{ messages.button_apply }}</span>
+                </button>
+              </div><!-- /.dropdown-block-control -->
+
+            </div><!-- /.filter-items -->
+
+          </div><!-- /.filter -->
+
+        </div><!-- /.filters-block -->
+
+      </div><!-- /.collection-filters -->
+
+    </div>
+
+    {% if order %}
+      <input type="hidden" name="order" value="{{ order }}"/>
+    {% endif %}
+
+    {% if page_size %}
+      <input type="hidden" name="page_size" value="{{ page_size }}"/>
+    {% endif %}
+
+    {% if language.not_default? %}
+      <input type="hidden" name="lang" value="{{ language.locale }}"/>
+    {% endif %}
+
+    {% if search.query != '' %}
+      <input type="hidden" name="q" value="{{ search.query }}"/>
+    {% endif %}
+
+  </form><!-- /.collection-filters -->
+
+{% endif %}

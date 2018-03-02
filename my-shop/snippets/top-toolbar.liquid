@@ -1,0 +1,26 @@
+<div class="top-toolbar">
+  <div class="row">
+
+    <div class="mobile-toolbar cell-sm-2">
+      <button class="button left-toolbar-trigger" type="button"><i class="icon ion-navicon"></i></button>
+    </div><!-- /.mobile-toolbar -->
+
+    <div class="contacts cell-sm-6">
+      {% case settings.phone %}
+        {% when 'from_settings' %}
+          <div class="phone"><a href="tel:{{ account.phone | strip_html | editable }}">{{ account.phone | strip_html | editable  }}</a></div>
+        {% when 'edited_block' %}
+          <div class="phone">{{ blocks.phone.content | editable }}</div>
+      {% endcase %}
+    </div><!-- /.contacts -->
+
+    <div class="shopcart-toolbar cell-sm-4 text-right-sm">
+      <a class="button shopcart-link js-shopcart-area" href="{{ cart_url }}">
+        <i class="icon ion-ios-cart-outline"></i>
+        <span class="shopcart-count">(<span class="js-shopcart-amount"></span>)</span>
+      </a>
+    </div><!-- /.shopcart-toolbar -->
+
+
+  </div>
+</div><!-- /.top-toolbar -->

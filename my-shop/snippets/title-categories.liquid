@@ -1,0 +1,106 @@
+{% if data.blocks.size > 0 %}
+
+  <div class="special-categories">
+    <div class="title-categories-inner container">
+      <div class="row">
+
+        {% for block in data.blocks %}
+
+          <div class="special-category cell-mc-12 cell-xs-6 cell-sm-4 cell-xl-3">
+
+            <div class="category-inner">
+
+              <div class="category-image-wrapper">
+                <a href="{{ block.collection.url }}" class="category-image-inner with-object-fit">
+
+                  {% if block.collection.image.large_url contains 'no_image' %}
+
+                    {% if block.collection.products.size > 0 %}
+
+                      {% for product in block.collection.products limit:1 %}
+
+                        {% if product.first_image.large_url contains 'no_image' %}
+                          <img src="{{ 'no_image.png' | asset_url }}" class="category-image" title='{{ block.collection.title }}' alt='{{ block.collection.title }}'>
+                        {% else %}
+                          <img src="{{ product.first_image.large_url }}" class="category-image" title='{{ block.collection.title }}' alt='{{ block.collection.title }}'>
+                        {% endif %}
+
+                      {% endfor %}
+
+                    {% else %}
+                      <img src="{{ 'no_image.png' | asset_url }}" class="category-image" title='{{ block.collection.title }}' alt='{{ block.collection.title }}'>
+                    {% endif %}
+
+                  {% else %}
+                    <img src="{{ block.collection.image.large_url }}" class="category-image" title='{{ block.collection.title }}' alt='{{ block.collection.title }}'>
+                  {% endif %}
+
+                </a>
+              </div>
+
+              <div class="category-title">
+                <a href="{{ block.collection.url }}" class="category-title-inner">{{ block.collection.title | editable }}</a>
+              </div>
+
+            </div><!-- /.special-category -->
+          </div><!-- /.special-category -->
+
+        {% endfor %}
+
+      </div>
+    </div>
+  </div><!-- /.special-categories -->
+
+{% else %}
+
+  <div class="special-categories">
+    <div class="title-categories-inner container">
+      <div class="row">
+
+        {% for collection in collections %}
+
+          <div class="special-category cell-mc-12 cell-xs-6 cell-sm-4 cell-xl-3">
+            <div class="category-inner">
+
+              <div class="category-image-wrapper">
+                <a href="{{ collection.url }}" class="category-image-inner with-object-fit" title='{{ collection.title }}'>
+
+                  {% if collection.image.large_url contains 'no_image' %}
+
+                    {% if collection.products.size > 0 %}
+
+                      {% for product in collection.products limit:1 %}
+                        {% if product.first_image.large_url contains 'no_image' %}
+                          <img src="{{ 'no_image.png' | asset_url }}" class="category-image" title='{{ collection.title }}' alt='{{ collection.title }}'>
+                        {% else %}
+                          <img src="{{ product.first_image.large_url }}" class="category-image" title='{{ collection.title }}' alt='{{ collection.title }}'>
+                        {% endif %}
+                      {% endfor %}
+
+                    {% else %}
+                      <img src="{{ 'no_image.png' | asset_url }}" class="category-image" title='{{ collection.title }}' alt='{{ collection.title }}'>
+                    {% endif %}
+
+                  {% else %}
+                    <img src="{{ collection.image.large_url }}" class="category-image" title='{{ collection.title }}' alt='{{ collection.title }}'>
+                  {% endif %}
+
+                </a>
+              </div>
+
+              <div class="category-title">
+                <a href="{{ collection.url }}" class="category-title-inner">
+                  {{ collection.title | editable }}
+                </a>
+              </div>
+
+            </div>
+          </div><!-- /.special-category -->
+
+        {% endfor %}
+
+      </div>
+    </div>
+  </div><!-- /.special-categories -->
+
+{% endif %}

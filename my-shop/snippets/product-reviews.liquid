@@ -1,0 +1,164 @@
+{% if product.reviews_count > 0 %}
+
+  <div class="reviews-list">
+
+    {% for review in product.reviews %}
+      <div class="reviews-item">
+
+        <div class="review-header">
+          <div class="author"><i class="fa fa-user"></i> {{ review.author }}</div>
+          <div class="date"><i class="fa fa-calendar"></i> {{ review.created_at | date: "%d.%m.%Y %H:%M" }}</div>
+          <div class="star-rating-wrapper">
+            <div class="star-rating">
+              {% assign r = 5 %}
+              {% for i in (1..5) %}
+                <span class="star-item {% if review.rating == r %}active{% endif %}"></span>
+                {% assign r = r | minus: 1 %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+
+        <div class="review-body">
+          <p class="text">
+            {{ review.content }}
+          </p>
+        </div>
+
+      </div><!-- /.reviews-item -->
+    {% endfor %}
+
+  </div><!-- /.reviews-list -->
+
+{% endif %}
+
+{% form review %}
+
+<div id="review_form">
+
+  {% if form.posted_successfully? %}
+    {% if account.reviews_moderated? %}
+      <div class="notice notice-success">
+        {{ messages.review_is_added_moderated }}
+      </div><!-- /.notice -->
+    {% else %}
+      <div class="notice notice-success">{{ messages.review_is_added }}.</div><!-- /.notice -->
+    {% endif %}
+  {% endif %}
+
+  {% if review.errors.size > 0 %}
+    <div class="notice notice-error">
+      <p>{{ messages.fields_are_incorrect }}:</p>
+      <ul>
+        {% if review.errors contains 'author' %}
+          <li>{{ messages.field_name }}</li>{% endif %}
+        {% if review.errors contains 'email' %}
+          <li>{{ messages.field_email }}</li>{% endif %}
+        {% if review.errors contains 'content' %}
+          <li>{{ messages.field_message }}</li>{% endif %}
+        {% if review.errors contains 'captcha_solution' %}
+          <li>{{ messages.field_captcha }}</li>{% endif %}
+      </ul>
+    </div><!-- /.notice -->
+  {% endif %}
+
+  <div
+    class="reviews-form-wrapper dropdown {% if review.errors.size > 0 or form.posted_successfully? %} toggled {% endif %}">
+
+    <button type="button" data-toggle="collapse"
+            class="button button-default dropdown-toggle js-toggle review-form-toggle" data-target="parent">
+      {{ messages.button_review }}
+    </button>
+
+    <div class="dropdown-block">
+
+      <div class="form collapsible js-review-wrapper">
+
+        <div class="form-row name-row row {% if review.errors contains 'author' %}is-error{% endif %}">
+          <div class="cell-xl-2 cell-sm-4 cell-xs-12">
+            <label class="form-label">{{ messages.field_name }} <span class="text-error">*</span> </label>
+          </div>
+          <div class="cell-xl-10 cell-sm-8 cell-xs-12">
+            <input name="review[author]" value="{{ review.author }}" type="text" class="form-field input-field"/>
+          </div>
+        </div><!-- /.name-row -->
+
+        <div class="form-row email-row row {% if review.errors contains 'email' %}is-error{% endif %}">
+          <div class="cell-xl-2 cell-sm-4 cell-xs-12">
+            <label class="form-label">{{ messages.field_email }} <span class="text-error">*</span> </label>
+          </div>
+          <div class="cell-xl-10 cell-sm-8 cell-xs-12">
+            <input name="review[email]" value="{{ review.email }}" type="text" class="form-field input-field"/>
+          </div>
+        </div><!-- /.email-row -->
+
+        <div class="form-row message-row row {% if review.errors contains 'content' %}is-error{% endif %}">
+          <div class="cell-xl-2 cell-sm-4 cell-xs-12">
+            <label class="form-label">{{ messages.field_message }} <span class="text-error">*</span> </label>
+          </div>
+          <div class="cell-xl-10 cell-sm-8 cell-xs-12">
+            <textarea name="review[content]" class="form-field textarea-field">{{ review.content }}</textarea>
+          </div>
+        </div><!-- /.message-row -->
+
+        {% if review.captcha_enabled? %}
+          <div class="form-row captcha-row row {% if review.errors contains 'captcha_solution' %}is-error{% endif %}">
+            <div class="cell-xl-2 cell-sm-4 cell-xs-12">
+              <label class="form-label">{{ messages.field_captcha }} <span class="text-error">*</span> </label>
+            </div>
+            <div class="cell-xl-10 cell-sm-8 cell-xs-12">
+              <input name="review[captcha_solution]" type="text" class="form-field input-field"/>
+
+              <div id="captcha_challenge" class="captcha-image">
+                {{ review | captcha_challenge }}
+              </div>
+            </div>
+          </div><!-- /.captcha-row -->
+        {% endif %}
+
+        <div class="form-row rating-row row">
+          <div class="cell-xl-2 cell-sm-4 cell-xs-12">
+            <label class="form-label">{{ messages.field_rating }}</label>
+          </div>
+          <div class="cell-xl-10 cell-sm-8 cell-xs-12">
+            <div class="star-rating-wrapper">
+              <div class="star-rating">
+                {% assign r = 5 %}
+                {% for i in (1..5) %}
+                  <input name="review[rating]" id="star{{ r }}" type="radio" class="star-radio" value="{{ r }}" {% if review.rating == r %}checked="checked"{% endif %}/>
+                  <label title="{{ r }}" for="star{{ r }}" class="star-label"></label>
+                  {% assign r = r | minus: 1 %}
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div><!-- /.rating-row -->
+
+        <div class="form-row notice-row row">
+          <div class="cell-xl-10 cell-sm-8 push-xl-2 push-xs-0">
+            {% if account.reviews_moderated? %}
+              <p class="text-info">
+                <i class="fa fa-warning"></i>
+                {{ messages.reviews_are_moderated }}
+              </p>
+            {% endif %}
+          </div>
+        </div><!-- /.notice-row -->
+
+        <div class="form-row row">
+          <div class="cell-xl-10 cell-sm-8 cell-sm-12 push-xl-2 push-sm-0">
+            <button type="submit" class="button button-primary">
+              <span class="button-text">{{ messages.button_submit }}</span>
+            </button>
+          </div>
+        </div>
+
+      </div><!-- /#review_form -->
+
+    </div><!-- /.dropdown-block -->
+
+  </div><!-- /.reviews-form-wrapper -->
+
+</div><!-- /#review_form -->
+
+{% endform %}

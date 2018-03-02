@@ -1,0 +1,51 @@
+<div class="modals hidden-xl">
+
+  <div id="js-preorder-modal" class="modal mfp-with-anim">
+    <div class="modal-inner">
+
+      <div class="modal-header block-header">
+        <h3>{{ messages.label_preorder }}</h3>
+      </div>
+
+      <form class="js-preorder-form" class="form" action="/feedback" method="post ">
+
+        <input type="hidden" name="subject" value="{{ messages.label_preorder }}">
+        <input type="hidden" name="from" value="{{ account.email }}">
+        <input class="js-product-title-input" type="hidden" name="content" value="{{ product.title }} ({{ product.variants.first.title }})">
+
+        {% if language.not_default? %}
+          <input type="hidden" name="lang" value="{{ language.locale }}"/>
+        {% endif %}
+
+        <div class="form-row row">
+          <label class="form-label cell-xl-4 cell-xs-12">
+            {{ messages.field_name }}<span class="required">*</span>
+          </label>
+          <div class="cell-xl-8 cell-xs-12">
+            <input name="name" type="text" class="form-field input-field" />
+          </div>
+        </div>
+
+        <div class="form-row row">
+          <label class="form-label cell-xl-4 cell-xs-12">
+            {{ messages.field_phone }}<span class="required">*</span>
+          </label>
+          <div class="cell-xl-8 cell-xs-12">
+            <input name="phone" type="text" class="form-field input-field phone-mask" />
+          </div>
+        </div>
+
+        <div class="form-row row">
+          <div class="cell-xl-4 cell-xl-12 push-xl-4 push-xs-0">
+            <button type="submit" class="button button-primary">
+              <span class="button-text">{{ messages.button_submit }}</span>
+            </button>
+          </div>
+        </div>
+
+      </form><!-- /#preorder-form -->
+
+    </div>
+  </div><!-- /#preorder-modal -->
+
+</div><!-- /.modals -->

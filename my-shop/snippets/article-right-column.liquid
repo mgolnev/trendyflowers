@@ -1,0 +1,39 @@
+<div class="row">
+
+  {% unless settings.article_image_hide %}
+    {% unless article.image.large_url contains 'no_image' %}
+      <div class="article-image cell-xl-12 hide-sm">
+        <a href="{{ article.url }}{{ lang_link }}" title="{{ article.title }}">
+          <img src="{{ article.image.large_url }}" alt="{{ article.title }}" title="{{ article.title }}"/>
+        </a>
+      </div><!-- /.article-image -->
+    {% endunless %}
+  {% endunless %}
+
+  {% for blog in blogs limit:3 %}
+
+    {% if blog.articles.size > 0 %}
+      <div class="last-articles cell-xl-12">
+
+        <div class="block-header">
+          <h2>
+            <a href="{{ blog.url }}" title="{{ blog.title | strip_html }}">{{ blog.title }}</a>
+          </h2>
+        </div>
+
+        <ul class="articles-list list-vertical">
+          {% for article in blog.articles limit: 5 %}
+            <li class="list-item">
+              <a class="list-link" href='{{ article.url }}' title='{{ article.title }}'>
+                {{ article.title }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+
+      </div><!-- /.last-articles -->
+    {% endif %}
+
+  {% endfor %}
+
+</div>

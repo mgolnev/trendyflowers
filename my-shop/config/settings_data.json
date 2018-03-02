@@ -1,0 +1,32 @@
+{
+  "common_js_version": "v2",
+  "current": "custom",
+  "presets": {
+    "custom": {
+      "color_background_primary": "#FFFFFF",
+      "color_text_primary": "#000000",
+      "color_link_primary": "#6FB52A",
+      "color_link_primary_hover": "#6FB52A",
+      "color_border_primary": "#F2F2F2",
+      "color_background_secondary": "#6FB52A",
+      "color_text_secondary": "#FFFFFF",
+      "color_link_secondary": "#FFFFFF",
+      "color_link_secondary_hover": "#FFFFFF",
+      "color_border_secondary": "#FFFFFF",
+      "body_background_color": "#424242",
+      "body_background_type": "stretch",
+      "font_family_primary": "google:Cuprum",
+      "font_size_primary": "16px",
+      "logotype_type": "text",
+      "logotype_font_family": "google:Lobster",
+      "logotype_font_size": "40px",
+      "phone": "edited_block",
+      "email": "edited_block",
+      "promo_slider_auto": "1",
+      "promo_slider_auto_time": "3000",
+      "category_description_position": "before_products",
+      "product_not_available": "preorder",
+      "article_author_hide": "1"
+    }
+  }
+}

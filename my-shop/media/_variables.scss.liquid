@@ -1,0 +1,65 @@
+//THEME SETTINGS
+// Основные цвета
+{% unless settings.color_background_primary == '' %}    $color-background-primary:    {{ settings.color_background_primary }};          {% endunless %}
+{% unless settings.color_text_primary == '' %}          $color-text-primary:          {{ settings.color_text_primary }};                {% endunless %}
+{% unless settings.color_link_primary == '' %}          $color-link_primary:          {{ settings.color_link_primary }};                {% endunless %}
+{% unless settings.color_link_primary_hover == '' %}    $color-link-primary-hover:    {{ settings.color_link_primary_hover }};          {% endunless %}
+{% unless settings.color_border_primary == '' %}        $color-border-primary:        {{ settings.color_border_primary }};              {% endunless %}
+
+// Дополнительные цвета
+{% unless settings.color_background_secondary == '' %}  $color-background_secondary:  {{ settings.color_background_secondary }};        {% endunless %}
+{% unless settings.color_text_secondary == '' %}        $color-text-secondary:        {{ settings.color_text_secondary }};              {% endunless %}
+{% unless settings.color_link_secondary == '' %}        $color-link-secondary:        {{ settings.color_link_secondary }};              {% endunless %}
+{% unless settings.color_link_secondary_hover == '' %}  $color-link-secondary_hover:  {{ settings.color_link_secondary_hover }};        {% endunless %}
+{% unless settings.color_border_secondary == '' %}      $color-border-secondary:      {{ settings.color_border_secondary }};            {% endunless %}
+
+// Фоновая подложка
+{% if settings.body_background_use %}
+$body-background-use: true;
+{% endif %}
+
+{% if settings.body_background_type %}
+$body-background-type: {{ settings.body_background_type }};
+{% endif %}
+
+{% unless settings.body_background_color == '' %}       $body-background-color:       {{ settings.body_background_color }};             {% endunless %}
+{% unless settings.body_background_image == '' %}       $body-background-image:       "{{ 'body_background_image.jpg' | asset_url }}";  {% endunless %}
+
+// Карточка товара
+{% if settings.cards_background_hide %}
+$cards-background-hide: true;
+{% else %}
+$cards-background-hide: false;
+{% endif %}
+
+{% if settings.cards_crop_off %}
+$cards-crop-off: true;
+{% else %}
+$cards-crop-off: false;
+{% endif %}
+
+// Шрифты
+{% unless settings.font_family_primary == '' %}
+{% if settings.font_family_primary contains 'google:' %}
+{% assign font_family_primary = settings.font_family_primary | replace_first: 'google:', '' %}
+{% assign font_family_primary = font_family_primary | replace_first: '+', ' ' %}
+{% else %}
+{% assign font_family_primary = settings.font_family_primary %}
+{% endif %}
+$font-family-primary: "{{ font_family_primary }}";
+{% endunless %}
+
+{% unless settings.font_size_primary == '' %}           $font-size-primary:           {{ settings.font_size_primary }};                 {% endunless %}
+
+// Настройка логотипа
+{% unless settings.logotype_font_family == '' %}
+{% if settings.logotype_font_family contains 'google:' %}
+{% assign logotype_font_family = settings.logotype_font_family | replace_first: 'google:', '' %}
+{% assign logotype_font_family = logotype_font_family | replace_first: '+', ' ' %}
+{% else %}
+{% assign logotype_font_family = settings.logotype_font_family %}
+{% endif %}
+$logotype-font-family: "{{ logotype_font_family }}";
+{% endunless %}
+
+{% unless settings.logotype_font_size == '' %}          $logotype-font-size:          {{ settings.logotype_font_size }};                {% endunless %}

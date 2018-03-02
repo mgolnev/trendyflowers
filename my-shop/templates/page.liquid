@@ -1,0 +1,15 @@
+{% include 'breadcrumb' %}
+
+{% include 'page-header' %}
+
+{% if page.content != '' %}
+  <div class="page-content primary-inner">
+    <div class="container">
+      <div class="row">
+        <div class="editor cell-xl-12">
+          {{ page.content | editable }}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}

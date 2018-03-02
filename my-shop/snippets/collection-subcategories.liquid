@@ -1,0 +1,39 @@
+{% if collection.subcollections.size > 0 and settings.category_subcategories_limit != 'hide' %}
+  <div class="collection-subcategories-wrapper">
+    <div class="collection-subcategories row">
+
+      {% for category in collection.subcollections limit:settings.category_subcategories_limit %}
+        <div class="category-item cell-xl-2 cell-lg-2 cell-md-3 cell-sm-4 cell-xs-6 cell-mc-12">
+          <a href="{{ category.url }}" title="{{ category.title }}" class="category-inner">
+
+            <span class="category-image">
+              <span class="image-inner with-object-fit">
+
+                {% if category.image.compact_url contains 'no_image' %}
+                  {% if category.products.size > 0 %}
+                    {% for item in category.products limit:1 %}
+                      {% if item.images.first.large_url contains 'no_image' %}
+                        <img title="{{ collection.title }}" alt="{{ collection.title }}" class="image-photo" src="{{ 'no_image.png' | asset_url }}">
+                    {% else %}
+                        <img title="{{ collection.title }}" alt="{{ collection.title }}" class="image-photo" src="{{ item.first_image.medium_url }}">
+                      {% endif %}
+                    {% endfor %}
+                  {% else %}
+                    <img title="{{ collection.title }}" alt="{{ collection.title }}" class="image-photo" src="{{ 'no_image.png' | asset_url }}">
+                  {% endif %}
+                {% else %}
+                  <img title="{{ collection.title }}" alt="{{ collection.title }}" class="image-photo" src="{{ category.image.medium_url }}">
+                {% endif %}
+
+              </span>
+            </span>
+
+            <span class="category-title"> {{ category.title }}</span>
+
+          </a>
+        </div>
+      {% endfor %}
+
+    </div>
+  </div>
+{% endif %}

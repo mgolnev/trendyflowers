@@ -4,13 +4,13 @@ var watch = require('gulp-watch');
 
 var options = {
   account: {
-    id: '0123456798',
-    token: '0123456798',
-    url: 'shop-41324.myinsales.ru',
+    id: '4d61f63e32f66fc6ed800403408f0d8e',
+    token: '2cffd15ef01cb3d518825f4c5d71aceb',
+    url: 'myshop-ke933.myinsales.ru',
     http: true
   },
   theme: {
-    id: '123456',
+    id: '955246',
     root: 'my-shop',
     update: true,
     excludeFiles: ['**/*.DS_Store', '**/*.log'],
@@ -87,4 +87,3 @@ gulp.task('open-browser', function(){
 gulp.task('default', ['download'], function() {
   return gulp.start('stream');
 });
-

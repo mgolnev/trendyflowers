@@ -1,0 +1,39 @@
+{% if search.performed? %}
+  {% if search.results == empty %}
+    <div class="notice notice-info">
+      {{ messages.search_is_fail }}
+    </div>
+  {% endif %}
+{% else %}
+  <div class="notice notice-info">
+    {{ messages.search_is_empty }}
+  </div>
+{% endif %}
+
+<div class="search-result-list row">
+
+  {% if search.performed? %}
+
+    {% paginate search.results by 12 %}
+
+    <div class="search-results-pages cell-xl-12">
+      {% include "pagination" %}
+    </div><!-- /.search-results-pages -->
+
+    {% for product in search.results %}
+
+      <div class="product-card search-result-item cell-xl-3 cell-lg-4 cell-sm-6 cell-xs-12">
+        {% include 'product-card' %}
+      </div><!-- /.product-card -->
+
+    {% endfor %}
+
+    <div class="search-results-pages cell-xl-12">
+      {% include "pagination" %}
+    </div><!-- /.search-results-pages -->
+
+    {% endpaginate %}
+
+  {% endif %}
+
+</div><!-- /.search-result-list -->

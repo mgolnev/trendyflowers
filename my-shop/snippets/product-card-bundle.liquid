@@ -1,0 +1,47 @@
+<div class="card-inner">
+
+  <div class="product-photo">
+    {% if bundle_component.product.images.size > 0 %}
+      <a href="{{ bundle_component.product.url }}" title='{{ bundle_component.product.title | strip_html }}' class="product-link">
+        <img src="{{ bundle_component.product.images.first.large_url }}" alt="{{ bundle_component.product.images.first.title | strip_html }}"
+             title="{{ bundle_component.product.images.first.title | strip_html }}" class="product-image">
+      </a>
+    {% else %}
+      <a href="{{ bundle_component.product.url }}" title='{{ bundle_component.product.title | strip_html }}' class="product-link">
+        <img src="{{ 'no_image.png' | asset_url }}" alt="{{ bundle_component.product.title | strip_html }}"
+             title="{{ bundle_component.product.title | strip_html }}" class="product-image">
+      </a>
+    {% endif %}
+  </div><!-- /.product-photo -->
+
+  <div class="product-caption">
+    <div class="product-title">
+      <a href="{{ bundle_component.product.url }}" class="product-link" title='{{ bundle_component.product.url }}'>
+
+        {{ bundle_component.product.title | strip_html | editable }}
+
+        {% if bundle_component %}
+          {% if bundle_component.variant.title != '' %}
+            ({{ bundle_component.variant.title }})
+          {% endif %}
+        {% endif %}
+
+      </a>
+    </div>
+  </div><!-- /.product-caption -->
+
+  <div class="product-prices">
+
+    {% if bundle_component.is_free %}
+      <span class="price is-free">{{ messages.label_is_free }}</span>
+    {% else %}
+      <span class="price in-bundle">{{ bundle_component.variant.price | money }}</span>
+    {% endif %}
+
+  </div><!-- /.product-prices -->
+
+  <div class="product-amount">
+    x {{ bundle_component.quantity }} {{ bundle_component.product.unit }}
+  </div>
+
+</div><!-- /.card-inner -->

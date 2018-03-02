@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  {% include 'head' %}
+
+  {% include 'styles' %}
+
+</head>
+<body class="adaptive">
+
+{% include 'top-toolbar' %}
+
+<div class="page-wrapper">
+
+  <div class="page-inner">
+
+    {% include 'header' %}
+
+    {% include 'collection-menu-horizontal' %}
+
+    {{ content_for_layout }}
+
+  </div>
+
+  {% include 'footer' %}
+
+</div>
+
+  {% include 'left-toolbar' %}
+
+  {% include 'modals' %}
+
+  {% include 'scripts' %}
+
+</body>
+</html>

@@ -1,0 +1,162 @@
+/*=========================================
+  ARTICLE
+=========================================*/
+.article {
+  margin-bottom: 20px;
+
+  .article-image {
+    margin-bottom: 10px;
+
+    img {
+      vertical-align: top;
+    }
+  }
+
+  .article-header {
+    margin-bottom: 10px;
+
+    .date, .author, .comments-count {
+      color: $color-text-primary;
+      font-size: .9em;
+      border-right: 1px solid lightgray;
+      margin-right: 10px;
+      padding-right: 10px;
+    }
+
+    .date {
+      border-right: none;
+      margin-right: 0;
+      padding-right: 0;
+    }
+  }
+
+  .article-body {
+    overflow: hidden;
+    margin-bottom: 40px;
+  }
+}
+
+.article-related {
+  margin-bottom: 20px;
+}
+
+/*=========================================
+  ARTICLE COMMENTS
+=========================================*/
+
+/*  Comments list
+-----------------------------------------*/
+.comments-list {
+  margin-bottom: 20px;
+}
+
+/*  Comments header
+-----------------------------------------*/
+.comments-count a {
+  color: $color-link-primary;
+}
+
+.comments-header {
+  border-bottom: 2px solid $color-border-secondary;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+}
+
+/*  Comments item
+-----------------------------------------*/
+.comments-item {
+  border-bottom: 2px solid lightgray;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+
+  .comment-header {
+    color: $color-text-primary;
+    font-family: $headings-font-family;
+    font-size: .9em;
+    margin-bottom: 10px;
+
+    .author,
+    .date {
+      display: inline-block;
+    }
+
+    .author {
+    }
+
+    .date {
+      border-left: 2px solid $color-border-primary;
+      margin-left: 10px;
+      padding-left: 10px;
+    }
+  }
+
+  .comment-body {
+
+    .title {
+    }
+
+    .text {
+    }
+  }
+
+  .comment-footer {
+    @include clearfix();
+  }
+}
+
+.comment-form-toggle {
+  margin-bottom: 20px;
+}
+
+@include media-min(lg) {
+
+  #comment-form {
+
+    .form-label {
+      text-align: right;
+    }
+  }
+}
+
+/*  Tags
+-----------------------------------------*/
+.article-tags {
+  margin-bottom: 20px;
+}
+
+.tags-list {
+
+  .tag-item {
+    display: inline-block;
+    margin: 0 .5em .5em;
+  }
+}
+
+.tag {
+  background: $color-link-primary;
+  color: $color-background-primary;
+  display: inline-block;
+  font-size: .9em;
+  height: 2em;
+  padding: .3em 1em;
+  position: relative;
+  @include link-decor($color-background-primary, $color-background-primary, none, none);
+
+  &:before {
+    background: transparent;
+    border: 1em solid transparent;
+    border-right: 1em solid $color-link-primary;
+    content: '';
+    display: block;
+    position: absolute; right: 100%; top: 0; bottom: 0;
+  }
+
+  &:after {
+    background: #fff;
+    border-radius: 50%;
+    content: '';
+    margin-top: -2.5px;
+    position: absolute; top: 50%; left: -3px;
+    @include size(6px);
+  }
+}
