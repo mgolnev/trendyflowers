@@ -1,0 +1,65 @@
+<div class="top-panel row js-top-panel-fixed">
+  <div class="top-menu-wrapper cell-12 cell-10-md hide-sm">
+    {% include "menu", source_type: 'menu', source_handle: 'main-menu', menu_class: 'top-menu' %}
+  </div>
+
+  <div class="top-menu-wrapper cell- hidden shown-sm">
+    <button type="button" class="top-panel-open-sidebar button js-open-sidebar"></button>
+  </div>
+
+  <div class="top-menu-icons-block collapse-block hide show-md cell-">
+    <div class="contacts-top-menu hidden shown-md">
+      {% unless settings.phone == 'hidden' and settings.email == 'hidden'  %}
+        <button type="button" class="contacts-icon js-open-contacts"></button>
+      {% endunless %}
+      <div class="contacts-top-menu-block cell-12 hidden">
+        <div class="header-block js-contacts-header cell- ">
+          <div class="phone text-left ">
+            {% case settings.phone %}
+              {% when 'from_settings' %}
+                <a href="tel:{{ account.phone | strip_html }}" class="contact-link tel">
+                  {{ account.phone | strip_html | editable }}
+                </a>
+              {% when 'edited_block' %}
+                <span class="">
+                  {{ blocks.phone.content | editable }}
+                </span>
+            {% endcase %}
+          </div>
+
+          <div class="email text-left flex-center-xs ">
+            {% case settings.email %}
+              {% when 'from_settings' %}
+                <a href="mailto:{{ account.email | strip_html }}" class="contact-link email">
+                   {{ account.email | strip_html | editable }}
+                </a>
+              {% when 'edited_block' %}
+                <span class="">
+                  {{ blocks.email.content | editable }}
+                </span>
+            {% endcase %}
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="hidden shown-sm">
+      <button type="button" class="top-panel-open-search button js-open-search-panel shown-sm"></button>
+    </div>
+
+    {% unless settings.product_compare_hide %}
+      <div class="compares-widget cell- hidden shown-sm">
+        <a href="/compares" class="compares-widget-link">
+          <span class="compare-widget-caption ">
+            <span class="compares-widget-count js-compares-widget-count"></span>
+          </span>
+        </a>
+      </div>
+    {% endunless %}
+
+    <div class="shopcart-widget-wrapper cell-  hidden shown-sm">
+      {% include "cart_widget", block_class: 'in-top-panel' %}
+    </div>
+  </div>
+</div>

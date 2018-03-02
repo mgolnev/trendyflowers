@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="product-gallery-wrapper cell-4 cell-6-md cell-12-sm">
+    {% include "product_labels", product: product %}
+
+    {% include "product_gallery" %}
+  </div>
+
+  <div class="cell-8 cell-6-md cell-12-sm">
+    <div class="product-introtext on-page editor">{{ product.short_description | editable }}</div>
+
+    {% include "product_form" %}
+  </div>
+</div>
+
+{% include "product_tabs" %}
+
+{% include "product_slider", slider_products: product.related_products, slider_class: 'related-products', slider_heading: messages.related_products%}
+
+{% include "product_slider", slider_products: product.similar_products, slider_class: 'similar-products', slider_heading: messages.similar_products %}

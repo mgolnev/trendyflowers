@@ -1,0 +1,73 @@
+<div class="product-gallery">
+  <div class="gallery-main-wrapper">
+    {% assign image_title = product.first_image.title | default: product.title %}
+
+    <a href="{{ product.first_image.original_url }}" class="image-wrapper"  id="gallery"  title="{{ image_title }}" data-gallery-count="1">
+      <img src="{{ product.first_image.large_url }}" alt="{{ image_title }}" title="{{ image_title }}" class="slide-image" >
+    </a>
+  </div>
+  <!-- Для тыкалок js -->
+  {% if product.images.size > 1 %}
+    <div class="gallery-thumbs-wrapper  hidden-sm">
+      <div class="gallery-thumbs" data-slider="gallery-thumbs">
+        {% if product.images.size > 3 %}
+          <div class="product-slider-controls gallery-controls controls-above-gallery" data-slider-controls>
+            <button class="product-slider-prev" data-slider-prev></button>
+            <button class="product-slider-next" data-slider-next></button>
+          </div>
+        {% endif %}
+
+        {% for image in product.images  %}
+          <div data-slider-slide >
+            {% assign image_title = image.title | default: product.title %}
+            <a class="slide-inner image-container is-rectangle js-copy-src"   href="{{ image.original_url }}" data-gallery-count="{{ forloop.index }}" data-image-large="{{ image.large_url }}"  title="{{ image_title }}" >
+              <img data-src="{{ image.medium_url }}" class="slide-image" data-slider-lazy>
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
+<!-- Для планшетов -->
+  {% if product.images.size > 0 %}
+    <div class="gallery-thumbs-wrapper mobile-wrapper hidden shown-sm">
+      <div class="gallery-thumbs" data-slider="gallery-thumbs-mobile">
+        <div class="product-slider-controls gallery-controls" data-slider-controls>
+          <button class="product-slider-prev" data-slider-prev></button>
+          <button class="product-slider-next" data-slider-next></button>
+        </div>
+
+        {% for image in product.images %}
+          <div data-slider-slide >
+            {% assign image_title = image.title | default: product.title %}
+            <a class="slide-inner image-container"
+                data-fancybox="gallery"
+                href="{{ image.original_url }}"
+                title="{{ image_title }}"
+                data-caption="{{ image_title }}"
+                data-slide-number="{{ forloop.index }}"
+            >
+              <img data-src="{{ image.large_url }}"
+                data-srcset="{{ image.large_url }} 400w, {{ image.original_url }} 800w"
+                sizes=""
+                class="slide-image"
+                data-slider-lazy
+              >
+            </a>
+          </div>
+        {% endfor %}
+
+      </div>
+    </div>
+
+  {% else %}
+  <a class="slide-inner image-container is-rectangle hidden shown-sm"  data-fancybox="gallery" href="{{ product.first_image.large_url }}"   title="{{ image_title }}" data-caption="{{ image_title }}" data-slide-number="{{ forloop.index }}">
+    <img src="{{ product.first_image.large_url }}" alt="{{ image_title }}"  class="slide-image">
+  </a>
+  {% endif %}
+
+</div>
+
+{% assign image = null %}
+{% assign image_title = null %}

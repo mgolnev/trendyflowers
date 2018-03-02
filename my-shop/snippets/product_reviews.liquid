@@ -1,0 +1,113 @@
+<div class="reviews-wrapper">
+  <button type="button" class="button is-reviews-toggle is-unchecked js-reviews-toggle">
+
+    <span class="button-text">
+      {{ messages.button_review }}
+    </span>
+  </button>
+
+  <div class="reviews-form">
+    <div class="notice is-success js-reviews-notice-success hidden">
+      {% if account.reviews_moderated? %}
+        {{ messages.review_is_added_moderated }}
+      {% else %}
+        {{ messages.review_is_added }}
+      {% endif %}
+    </div>
+
+    <div id="review_form" data-review-product="{{ product.id }}"></div><!-- /.review_form -->
+
+    {% if account.reviews_moderated? %}
+      <div class="notice is-info icon-warning js-comments-toggle-notice">
+        {{ messages.reviews_are_moderated }}
+      </div>
+    {% endif %}
+
+  </div>
+
+</div>
+
+<script type="text/javascript">
+  $(function () {
+    var _reviewForm = {
+      form: {},
+      fields: [
+        {
+          title: '{{ messages.field_rating }}',
+          name: 'rating',
+          type: 'rating',
+          rating: 5
+        },
+        {
+          title: '{{ messages.field_text }}',
+          type: 'textarea',
+          name: 'content',
+          required: true,
+        },
+        {
+          title: '{{ messages.field_name }}',
+          name: 'author',
+          required: true,
+        },
+        {
+          title: '{{ messages.field_email }}',
+          name: 'email',
+          required: true
+        },
+        {% if review.captcha_enabled? %}
+        {
+          title: '{{ messages.field_captcha }}',
+          type: 'captcha',
+        }
+        {% endif %}
+      ],
+      buttons: [
+        {
+          title: '{{ messages.button_submit }}',
+          type: 'submit',
+          classes: 'button is-action',
+          onClick: function (form) {
+            form.validate({
+              id: {{ product.id }}
+            });
+          }
+        }
+      ],
+      sendTo: Shop.sendReview,
+      onValid: function (response, form) {
+        var $notice = $('.js-reviews-notice-success');
+        var $commentsList = $('[data-comments-list]');
+        alertify.success('{{ messages.review_is_added }}');
+        // $('.js-comments-toggle-notice').show();
+        $notice.removeClass('hidden');
+        setTimeout(function () {
+          $notice.addClass('hidden');
+        }, 10000);
+
+        form.clear();
+
+        if (!$commentsList.data('commentsModerated')) {
+          $commentsList.load(document.location.pathname + ' [data-comments-list] > div' );
+          $(document).ajaxSuccess(function() {
+            $(function () {
+                $('[data-product-rating]').each(function () {
+                  var _node = $(this);
+                  var _rating = _node.data('productRating');
+                  var _maxRating = _node.data('productMaxRating') || 5;
+
+                  _node.html(Template.render({
+                    rating: _rating,
+                    max: _maxRating
+                  }, 'system-review-rating'));
+                });
+            })
+          });
+        }
+      },
+      onError: function (response, form) {
+        form.markErrors(response.errors);
+      }
+    };
+    var $form = InSalesUI.Form.create($('#review_form'), _reviewForm);
+  });
+</script>

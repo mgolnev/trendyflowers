@@ -1,0 +1,33 @@
+{% if data.blocks.size > 0 %}
+
+  {% for block in data.blocks %}
+    {% if block.collection.products.size > 0 %}
+      <div class="special-products-wrapper">
+        <div class="product-slider is-special-products" data-slider="special-products">
+
+          <div class="product-slider-heading-wrapper">
+            {% if block.title %}
+              <a href="{{ block.collection.url }}" class="product-slider-heading">{{ block.title }}</a>
+              {% else %}
+              <a href="{{ block.collection.url }}" class="product-slider-heading">{{ block.collection.title }}</a>
+            {% endif %}
+
+
+            <div class="product-slider-controls" data-slider-controls>
+              <button class="product-slider-prev" data-slider-prev></button>
+              <button class="product-slider-next" data-slider-next></button>
+            </div>
+          </div>
+
+          {% for product in block.collection.products limit:16 %}
+            <div class="special-products" data-slider-slide>
+              {% include 'product_card', card_class: 'special-products' %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+  {% endfor %}
+
+{% endif %}

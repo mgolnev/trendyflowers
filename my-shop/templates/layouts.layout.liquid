@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {% include "head" %}
+
+    {% include "styles" %}
+  </head>
+
+  <body class="fhg-body">
+    {% include "no_js_alert" %}
+
+    <div class="top-panel-wrapper">
+      <div class="container">
+        {% include "top_panel" %}
+      </div>
+    </div>
+
+    <div class="header-wrapper">
+      <div class="container">
+        {% include "header" %}
+      </div>
+    </div>
+
+    <div class="content-wrapper container fhg-content">
+      {% assign content_classes = 'cell-9 cell-8-md cell-12-sm' %}
+      {% assign sidebar_classes = 'cell-3 cell-4-md hidden-sm' %}
+
+      {% unless template contains 'collection' or template contains 'blog' or template contains 'article' %}
+        {% assign content_classes = 'cell-12' %}
+        {% assign sidebar_classes = '' %}
+      {% endunless %}
+
+      {% unless template contains 'index' %}
+        {% include "page_header" %}
+
+        {% include "breadcrumb", home_title: 'Главная' %}
+      {% endunless %}
+
+      {% assign sidebar_position = 'flex-last' %}
+      {% if template contains 'collection' %}
+        {% assign sidebar_position = 'flex-first' %}
+      {% endif %}
+
+      <div class="row {{ template }}-wrapper">
+        <div class="{{ template }} {{ content_classes }}">
+          {{ content_for_layout }}
+        </div>
+
+        {% unless sidebar_classes == '' %}
+          <div class="{{ sidebar_classes }} {{ sidebar_position }}">
+            {% include "sidebar" %}
+          </div>
+        {% endunless %}
+      </div>
+      {% if template contains 'index' %}
+        {% include "page_header" %}
+
+      <div class="index-description editor">
+        {{ page.content | editable}}
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="container">
+        {% include "footer" %}
+      </div>
+    </div>
+
+  </body>
+
+  {% include "modals" %}
+  {% include "scripts" %}
+</html>

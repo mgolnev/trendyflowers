@@ -1,0 +1,79 @@
+<div class="product-content tab">
+
+{% if product.is_bundle %}
+  <button class="tab-toggle" data-target="#product-bundle" data-toggle="tabs">
+    {{ messages.bundle_includes }}
+  </button>
+
+  <div id="product-bundle" class="tab-block">
+    <div class="tab-block-inner">
+      {% include "bundle" %}
+    </div>
+  </div>
+{% endif %}
+  {% if product.description %}
+    <button class="tab-toggle" data-target="#product-description" data-toggle="tabs">
+      {{ messages.label_description }}
+    </button>
+
+    <div id="product-description" class="tab-block">
+      <div class="tab-block-inner editor">
+        {{ product.description | editable }}
+      </div>
+    </div><!-- /#product-description -->
+  {% endif %}
+
+
+
+  {% if product.properties.size > 0 %}
+    <button class="tab-toggle" data-target="#product-characteristics" data-toggle="tabs">
+      {{ messages.label_characteristics }}
+    </button>
+
+    <div id="product-characteristics" class="tab-block">
+      <div class="tab-block-inner editor">
+        <table class="table table-bordered table-striped table-hover">
+
+          {% for property in product.properties %}
+            <tr>
+              <td>{{ property.name }}</td>
+              <td>
+                {% for characteristic in property.characteristics %}
+                  {{ characteristic.title }}{% unless forloop.last %},{% endunless %}
+                {% endfor %}
+              </td>
+            </tr>
+          {% endfor %}
+
+        </table>
+      </div>
+    </div><!-- /#product-characteristics -->
+  {% endif %}
+
+  {% if account.reviews_enabled? %}
+    <button class="tab-toggle" data-target="#product-comment" data-toggle="tabs">
+      {{ messages.label_reviews }}
+    </button>
+
+    <div id="product-comment" class="tab-block">
+      <div class="tab-block-inner">
+        {% include 'comment_list', comments_list: product.reviews, moderated: account.reviews_moderated? %}
+
+        {% include "product_reviews" %}
+      </div>
+    </div><!-- /#product-comment -->
+  {% endif %}
+
+  {% for field in product.fields  %}
+    {% if field.value != ''  %}
+      <button class="tab-toggle" data-target="#{{  field.handle }}" data-toggle="tabs">
+        {{ field.title }}
+      </button>
+      <div id="{{  field.handle }}" class="tab-block">
+        <div class="tab-block-inner editor">
+            {{ field.value }}
+        </div>
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>

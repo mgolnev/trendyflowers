@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html class='' lang='ru' xml:lang='ru' xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+  {% include "head" %}
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+  <meta content='noindex, nofollow' name='robots'>
+  <meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
+
+  <link href='https://fonts.googleapis.com/css?family=Ubuntu:400,300,500,700&amp;subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  {{ 'checkout2' | global_stylesheet_tag }}
+
+  {% include "styles" %}
+</head>
+<body class='adaptive fhg-body'>
+  <div class="top-panel-wrapper">
+    <div class="container">
+      {% include "top_panel" %}
+    </div>
+  </div>
+
+  <div class="header-wrapper">
+    <div class="container">
+      {% include "header" %}
+    </div>
+  </div>
+
+  <div class="page-wrapper fhg-content">
+    <div class="container page-inner ">
+
+
+      <div class='checkout-v2-wrapper co-section--checkout_content'>
+        <div class='co-section--checkout_order co-section--checkout_order_sided'>
+
+          <div class='co-section--checkout_header co-checkout-block--padded'>
+            <div class="decorated-title-wrapper co-checkout-title">
+              <h1 class='decorated-title co-title co-title--h1'>
+              {% yield 'title' %}
+              </h1>
+            </div>
+            {% yield 'breadcrumbs' %}
+          </div>
+          {% yield 'sidebar' %}
+          {% yield %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-wrapper">
+    <div class="container">
+  {% include "footer" %}
+</div>
+</div>
+</body>
+  {% include "modals" %}
+
+  {% include "scripts" %}
+
+</html>

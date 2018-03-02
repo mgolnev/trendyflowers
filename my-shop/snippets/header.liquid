@@ -1,0 +1,71 @@
+<header class="header">
+  <div class="row flex-between flex-center-sm flex-middle">
+
+    <div class="logotype-wrapper cell-4 cell-7-md cell-12-sm ">
+      <div class="logotype text-center-sm">
+        {% assign logotype_image = 'logotype.jpg' | asset_url_if_exists %}
+        <a title="{{ account.title }}" href="/" class="logotype-link">
+          {% if settings.logotype_type == 'image' and logotype_image %}
+            <img src="{{ logotype_image }}" class="logotype-image" alt="{{ account.title }}" title="{{ account.title }}" />
+          {% else %}
+            <span class="logotype-text">{{ account.title }}</span>
+          {% endif %}
+        </a>
+      </div>
+    </div>
+
+    <div class="header-block js-contacts-header cell-4 hidden-md">
+      <div class="phone text-left text-center-sm">
+        {% case settings.phone %}
+          {% when 'from_settings' %}
+              <a href="tel:{{ account.phone | strip_html }}" class="contact-link tel"> {{ account.phone | strip_html | editable }}</a>
+          {% when 'edited_block' %}
+            <span class="">
+              {{ blocks.phone.content | editable }}
+            </span>
+        {% endcase %}
+      </div>
+
+      <div class="email text-left flex-center-xs hidden-md">
+        {% case settings.email %}
+          {% when 'from_settings' %}
+            <a href="mailto:{{ account.email | strip_html }}" class="contact-link email"> {{ account.email | strip_html | editable }}</a>
+          {% when 'edited_block' %}
+            <span class="">
+              {{ blocks.email.content | editable }}
+            </span>
+        {% endcase %}
+      </div>
+    </div>
+  <div class="header-block header-search cell- hidden-sm">
+    {% include "search_widget", widget_class: 'in-top-panel js-toggle-search hidden-sm hidden' %}
+  <button type="button" class="top-panel-open-search button js-open-search-panel shown-sm"></button>
+    </div>
+
+    <div class="header-block header-compare cell-  hidden-sm">
+
+      {% unless settings.product_compare_hide %}
+        <div class="compares-widget cell- ">
+          <a href="/compares" class="compares-widget-link">
+
+
+            <span class="compare-widget-caption ">
+              <span class="compares-widget-count js-compares-widget-count"></span>
+            </span>
+
+          </a>
+        </div>
+      {% endunless %}
+
+      <div class="shopcart-widget-wrapper cell- hidden-sm">
+        {% include "cart_widget", block_class: 'in-top-panel' %}
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="catalog-menu-wrapper hidden-sm">
+    {% include "menu", source_type: 'collection', source_handle: 'all', menu_class: 'catalog-menu', show_icon: false %}
+  </div>
+</header>

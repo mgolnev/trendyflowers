@@ -1,0 +1,49 @@
+
+
+<footer class="footer ">
+  <div class="footer-menu-wrapper is-vertical cell-12 cell-12-sm text-center">
+    {% include "menu", source_type: 'menu', source_handle: 'footer-menu', menu_class: 'footer-menu' %}
+  </div>
+<div class="footer-bottom-wrapper row">
+  <div class="footer-block js-contacts-header cell-4 cell-12-sm ">
+    <div class="phone text-left text-center-sm">
+      {% case settings.phone %}
+        {% when 'from_settings' %}
+            <a href="tel:{{ account.phone | strip_html }}" class="contact-link tel"> {{ account.phone | strip_html | editable }}</a>
+        {% when 'edited_block' %}
+          <span class="">
+            {{ blocks.phone.content | editable }}
+          </span>
+      {% endcase %}
+    </div>
+
+    <div class="email text-left text-center-sm ">
+      {% case settings.email %}
+        {% when 'from_settings' %}
+          <a href="mailto:{{ account.email | strip_html }}" class="contact-link email">{{ account.email | strip_html | editable }}</a>
+        {% when 'edited_block' %}
+          <span class="">
+            {{ blocks.email.content | editable }}
+          </span>
+      {% endcase %}
+    </div>
+  </div>
+  {% unless settings.social_media_hide  %}
+  <div class="social-link-wrapper cell-4 cell-12-sm cell-12-xs flex-first-sm ">
+    {% include "social_links" %}
+  </div>
+  {% endunless %}
+
+
+
+
+  <div class="insales-copyright cell-4  cell-10-xs cell-10-sm text-right ">
+      <a href="https://{{ account.insales_domain }}" class="insales-copyright-link" target="_blank">
+        {{ messages.created_by }}
+      </a>
+  </div>
+</div>
+<button class="js-arrow-up">
+</button>
+
+</footer>

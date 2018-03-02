@@ -1,0 +1,52 @@
+{% if template contains 'collection' %}
+  {% assign menu_root = collection.parent %}
+  {% if collection.level == 0 %}
+    {% assign menu_root = collection %}
+  {% endif %}
+
+  <div class="sidebar-block">
+    <div class="sidebar-block-heading">
+      {{ menu_root.title }}
+    </div>
+
+    <div class="sidebar-block-content">
+      {% include "menu", source_type: 'collection', source_handle: menu_root.handle, menu_class: 'sidebar-menu',  %}
+    </div>
+  </div>
+
+  <div class="sidebar-block">
+    {% include "collection_filter", filter_class: 'sidebar-filter' %}
+  </div>
+{% endif %}
+
+{% if template contains 'blog' or template contains 'article' %}
+  {% for blog in blogs %}
+    {% if blog.articles.size > 0 %}
+      <div class="sidebar-block">
+        <div class="sidebar-block-heading">
+          {{ blog.title }}
+        </div>
+
+        {% include "menu", source_type: 'blog', source_handle: blog.handle menu_class: 'blog-menu', links_limit: 5 %}
+
+        {% if blog.articles.size > 5 %}
+          <div class="sidebar-block-toolbar toolbar text-right">
+            <a href="{{ blog.url }}" class="button is-primary button-more">
+              {{ messages.all_blogs }}
+            </a>
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+  {% endfor %}
+
+  {% if blog.tags.size > 0 %}
+    <div class="sidebar-block">
+      <div class="sidebar-block-heading">
+        {{ messages.tags_title }}
+      </div>
+
+      {% include "tags_cloud" %}
+    </div>
+  {% endif %}
+{% endif %}

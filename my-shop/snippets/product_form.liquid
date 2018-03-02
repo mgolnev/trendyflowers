@@ -1,0 +1,92 @@
+<form class="product-form" action="{{ cart_url }}" data-product-id="{{ product.id }}" data-main-form>
+
+  <div class="product-option-selectors option-selectors">
+    {% if product.show_variants? %}
+      <select name="variant_id" data-product-variants style="display: none;">
+        {% for variant in product.variants %}
+          <option value="{{ variant.id }}">{{ variant.title | escape }}</option>
+        {% endfor %}
+      </select>
+    {% else %}
+      <input type="hidden" name="variant_id" value="{{ product.variants.first.id }}">
+    {% endif %}
+  </div>
+
+  <div class="product-sku-wrapper js-product-sku-wrapper" style="display: none;">
+    <span class="label-article">{{ messages.label_article }}:</span>
+    <span class="js-product-sku">{{ product.variants.first.sku }}</span>
+  </div>
+
+  <div class="product-prices on-page" style="display: none;">
+    <div class="old-price js-product-old-price on-page">
+      {% if product.old_price > product.price %}
+        {{ product.old_price | money }}
+      {% endif %}
+    </div>
+    <div class="price js-product-price on-page">{{ product.price | money }}</div>
+  </div>
+
+  <div class="product-control on-page" data-compare="{{ product.id }}">
+
+
+    {% include "product_counter" %}
+
+    <button class="product-button button is-primary  js-variant-shown" type="submit" data-item-add style="display: none;">
+
+      <span class="button-text">
+        {{ messages.button_to_cart }}
+      </span>
+    </button>
+
+    <div class="product-order-variant variant-hidden js-variant-hidden hidden" style="display: none;">
+      <p class="notice notice-info">
+        {{ messages.product_not_available }}
+      </p>
+    </div>
+
+    <button class="product-button button is-secondary js-variant-preorder "
+      type="button" style="display: none;"
+    >
+
+      <span class="button-text">
+        {{ messages.button_preorder }}
+      </span>
+    </button>
+
+
+    {% if account.quick_checkout.enabled %}
+      <button type="button" class="product-button is-quick-checkout button is-secondary" data-quick-checkout style="display: none;">
+        {{ account.quick_checkout.button_title }}
+      </button>
+    {% endif %}
+
+    {% unless settings.product_compare_hide %}
+      {% unless product.is_bundle %}
+        <div class="compare-control">
+          <button class="compare-link js-compare-add " data-compare-add="{{ product.id }}">
+
+            <span class="link-text">
+              {{ messages.button_add_comparison }}
+            </span>
+          </button>
+
+          <button class="compare-link js-compare-delete hide" data-compare-delete="{{ product.id }}" style="display: none;">
+
+            <span class="link-text">
+              {{ messages.button_remove_comparison }}
+            </span>
+          </button>
+        </div>
+      {% endunless %}
+    {% endunless %}
+
+  </div>
+
+  {% unless settings.product_share_hide %}
+    <div class="product-share share">
+      <script type="text/javascript" src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js" charset="utf-8"></script>
+      <script type="text/javascript" src="//yastatic.net/share2/share.js" charset="utf-8"></script>
+      <div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,moimir,gplus,twitter,lj"  data-description='{{ product.description | strip_html | truncatewords: 25, " ..." }}' data-image="{{ product.first_image.original_url }}" data-counter=""></div>
+    </div>
+  {% endunless %}
+</form>

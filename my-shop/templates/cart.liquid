@@ -1,0 +1,46 @@
+{% if cart.items.size > 0 %}
+
+  <form action="{{ cart_items }}" method="post" class="shopping-cart" data-cart-form>
+
+    <div class="cart-body">
+      <div class="cart-list">
+        {% for item in cart.items %}
+
+          {% include 'cart_item' %}
+
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="cart-footer row flex-between">
+
+      <div class="cell-4 cell-6-md cell-12-sm">
+        {% include "cart_discount" %}
+      </div>
+
+      <div class="cell-4 cell-6-md cell-12-sm flex-start-sm cart-block-checkout">
+        <div class="cart-total js-shopcart-total-summ"></div>
+
+        <button type="submit" class="cart-checkout button is-primary" data-cart-submit>
+          <span class="button-text">
+            {{ messages.button_checkout }}
+          </span>
+        </button>
+      </div>
+
+    </div>
+
+    <input type="hidden" name="_method" value="put">
+    <input type="hidden" name="make_order" value="">
+    <input type="hidden" name="lang" value="{{ language.locale }}"/>
+
+  </form>
+
+  {% assign cart_empty_class = 'hidden' %}
+{% endif %}
+
+<div class="notice notice-info text-center js-cart-empty {{ cart_empty_class }}">
+  {{ messages.cart_is_empty }}
+</div>
+
+{% assign cart_empty_class = null %}
