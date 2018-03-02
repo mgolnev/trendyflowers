@@ -10,7 +10,7 @@ var options = {
     http: true
   },
   theme: {
-    id: '955246',
+    id: '955265',
     root: 'my-shop',
     update: true,
     excludeFiles: ['**/*.DS_Store', '**/*.log'],
