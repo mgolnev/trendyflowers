@@ -1,19 +1,5 @@
 (function () {
-  $('.js-open-sidebar').on('click', function () {
-    alertify.panel({
-      target: $('[data-modal="mobile-sidebar"]').html(),
-      position: 'left',
-      onOpen: function (modal) {
-        var $sidebarBlocks = $(modal).find('.sidebar-block-content');
 
-        $sidebarBlocks.each(function () {
-          var $menu = $(this).find('.mobile-sidebar-menu').first();
-
-          InSalesUI.Menu.create($menu);
-        });
-      }
-    });
-  });
 $('.js-open-contacts').on('click',function(){
   $('.contacts-top-menu-block').removeClass('hidden');
   $(this).addClass('is-active');
@@ -35,7 +21,7 @@ $('.contacts-overlay').on('click',function(){
 // Open modal search or search panel in dependence window width
 $('.js-open-search-panel').on('click', function (elem) {
 // console.log(window.innerWidth );
-  if (window.innerWidth  <= 768){
+  if (window.innerWidth  > 1){
         alertify.panel({
           target: $('[data-modal="search-form"]').html(),
           position: 'top', hideAfter: false

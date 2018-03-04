@@ -2,25 +2,12 @@
 <html>
   <head>
     {% include "head" %}
-
     {% include "styles" %}
   </head>
 
   <body class="fhg-body">
     {% include "no_js_alert" %}
-
-    <div class="top-panel-wrapper">
-      <div class="container">
-        {% include "top_panel" %}
-      </div>
-    </div>
-
-    <div class="header-wrapper">
-      <div class="container">
-        {% include "header" %}
-      </div>
-    </div>
-
+    {% include "header" %}
     <div class="content-wrapper container fhg-content">
       {% assign content_classes = 'cell-9 cell-8-md cell-12-sm' %}
       {% assign sidebar_classes = 'cell-3 cell-4-md hidden-sm' %}

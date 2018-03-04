@@ -4,32 +4,28 @@
   "presets": {
     "custom": {
       "color_background_primary": "#FFFFFF",
-      "color_text_primary": "#9A8C61",
+      "color_text_primary": "#3D3D3D",
       "color_link_primary": "#40363A",
-      "color_link_primary_hover": "#D6C99C",
+      "color_link_primary_hover": "#F39664",
       "color_border_primary": "#CCCCCC",
-      "color_background_secondary": "#FFFFFF",
-      "color_text_secondary": "#5E5E5E",
-      "color_link_secondary": "#F978AC",
+      "color_background_secondary": "#B8FFD4",
+      "color_text_secondary": "#FFFFFF",
+      "color_link_secondary": "#FFFCFC",
       "color_link_secondary_hover": "#F9AF88",
       "color_border_secondary": "#A89B9B",
       "body_background_color": "#FFFFFF",
       "body_background_type": "default",
       "font_family_primary": "google:Roboto",
       "font_size_primary": "16px",
-      "logotype_type": "image",
-      "logotype_font_family": "google:Exo+2",
+      "logotype_type": "text",
+      "logotype_font_family": "google:Marmelad",
       "logotype_font_size": "40px",
       "phone": "from_settings",
       "email": "from_settings",
       "promo_slider_auto_time": "",
       "category_description_position": "before_products",
       "product_not_available": "shown",
-      "product_compare_hide": "1",
-      "_settings_version": 1520092163.3364315
+      "_settings_version": 1520033078.5313346
     }
-  },
-  "remote_theme_id": 408,
-  "source_account_id": null,
-  "theme_title": "Чистота 2.0"
+  }
 }

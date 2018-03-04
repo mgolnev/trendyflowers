@@ -1,3 +1,5 @@
+#= require nav-menu
+
 #= require insales_theme_settings
 
 #= require layout

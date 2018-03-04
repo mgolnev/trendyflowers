@@ -75,7 +75,7 @@
 
 (function(){
   $(window).scroll(function(){
-    if (( window.pageYOffset > 250)&&(window.innerWidth  <= 768)){
+    if (( window.pageYOffset > 115)&&(window.innerWidth  <= 768)){
       $('.js-top-panel-fixed').addClass("fixed");
       $('.top-panel-wrapper').addClass("z-index");
     }

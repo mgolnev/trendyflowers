@@ -501,7 +501,7 @@ var Panel = {
   },
 
   settingUpdated: function (key, oldValue, newValue) {
-    
+
     switch (key) {
       case 'position':
       case 'classes':

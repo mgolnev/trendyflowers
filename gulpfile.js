@@ -24,7 +24,7 @@ var options = {
     },
     browserSync: {
       start: false,
-      uploadRestart: false
+      uploadRestart: true
     },
     stylelint: {
       use: true,

@@ -1,4 +1,4 @@
-#= require jquery.fancybox.min
+#= require jquery.fancybox.min.js
 
 #= require jquery.serializeObject.js
 
